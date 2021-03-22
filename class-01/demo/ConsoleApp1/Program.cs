@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using ConsoleApp1.Data;
 
 namespace ConsoleApp1
@@ -21,7 +19,23 @@ namespace ConsoleApp1
             Stuff.Test("123");
             Stuff.Test(123.ToString());
 
-            Stuff.Test(123);
+            Stuff.Test(123); // decimal int literal
+            Stuff.Test(0x123); // hexadecimal int literal
+
+            var number = -234.5m; // inferred as decimal
+            // error! number = "pi";
+            Stuff.Test((int)number); // explicit cast
+
+            Stuff.Test((int)"Keith"[0]);
+            Console.WriteLine((char)42);
+
+            Console.WriteLine("Sum is " + Stuff.SumOfTwoNumbers());
+
+            while (true)
+            {
+                int numberFromUser = Stuff.AskForNumber();
+                Console.WriteLine("You entered: {0}", numberFromUser);
+            }
         }
     }
 }
