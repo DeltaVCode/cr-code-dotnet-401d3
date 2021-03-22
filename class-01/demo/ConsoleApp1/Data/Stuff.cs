@@ -8,6 +8,12 @@ namespace ConsoleApp1.Data
         {
             Console.WriteLine("Testing from Stuff!");
             Console.WriteLine("hello, " + name);
+            Console.WriteLine();
+            Console.WriteLine(true);
+        }
+        public static void Test(int number)
+        {
+            Console.WriteLine("Lucky number is " + number);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace ConsoleApp1
 
             Stuff.Test("123");
             Stuff.Test(123.ToString());
+
+            Stuff.Test(123);
         }
     }
 }
