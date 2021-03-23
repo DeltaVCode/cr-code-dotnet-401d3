@@ -7,6 +7,7 @@ namespace FizzBuzz
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            Console.WriteLine(FizzBuzzer.Convert(1));
         }
     }
 }
