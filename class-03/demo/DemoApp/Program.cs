@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace DemoApp
 {
@@ -21,6 +22,14 @@ namespace DemoApp
                 Console.WriteLine("All Lines:");
                 for (int i = 0; i < allLines.Length; i++)
                     Console.WriteLine($"{i}: {allLines[i]}");
+
+                // Copy with default encoding - UTF8
+                File.WriteAllLines("copy.txt", allLines);
+
+                // Write file out with different encoding
+                File.WriteAllLines("unicode.txt", allLines, Encoding.Unicode);
+
+                File.AppendAllLines("append-to-me.txt", allLines);
             }
             catch (FileNotFoundException fnfex)
             {
