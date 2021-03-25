@@ -18,24 +18,32 @@ namespace Demo
         private Author author;
 
         // Constructor
+        public Book(string title, Author author)
+        {
+            this.title = title;
+            this.author = author;
+        }
+
         public Book(string title)
         {
+            if (title == null) throw new ArgumentNullException();
+
             this.title = title;
 
             bookCount++;
             books.Add(this);
         }
 
-        // Properties
-        public string Title
-        {
-            get { return title; }
-        }
-
         // Java has to do this because it doesn't have properties
         public string GetTitle()
         {
             return title;
+        }
+
+        // Properties
+        public string Title
+        {
+            get { return title; }
         }
 
         // Automatic property has secret field
@@ -53,10 +61,20 @@ namespace Demo
             }
         }
 
+        public string Two
+        {
+            get { return "two"; }
+        }
+
         // Methods
         public string FormatBookTitleAndAuthor()
         {
-            return $"{Title} by {Author.FirstName} {Author.LastName}";
+            if (Author == null)
+            {
+                return title;
+            }
+
+            return $"{Title} by {Author.FullName}";
         }
     }
 }
