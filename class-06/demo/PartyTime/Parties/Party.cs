@@ -21,6 +21,8 @@ namespace PartyTime.Parties
     {
         public abstract bool AcceptGifts { get; }
 
+        public virtual int ClownCount => 0;
+
         public override void Setup()
         {
             Console.WriteLine("Invite guests.");
