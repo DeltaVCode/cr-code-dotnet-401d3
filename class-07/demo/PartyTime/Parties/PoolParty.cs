@@ -2,9 +2,12 @@
 
 namespace PartyTime.Parties
 {
-    public class PoolParty : Party
+    public class PoolParty : Party, IPoolParty
     {
         public decimal PoolDepth { get; set; }
+
+        public int FloatiesProvided => 0;
+        public bool LifeJacketsProvided => true;
 
         public override void Setup()
         {
@@ -21,5 +24,14 @@ namespace PartyTime.Parties
         }
 
         // public abstract void Whatever(); // Cannot have abstract if type is not abstract
+    }
+
+    public interface IPoolParty
+    {
+        decimal PoolDepth { get; }
+
+        int FloatiesProvided { get; }
+
+        bool LifeJacketsProvided { get; }
     }
 }

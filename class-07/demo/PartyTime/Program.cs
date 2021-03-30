@@ -15,10 +15,15 @@ namespace PartyTime
             // party.PoolDepth // error because Party doesn't have this property
             party.Teardown();
 
-            PoolParty poolParty = new PoolParty();
+            // Object initializer to set properties as part of construction
+            PoolParty poolParty = new PoolParty
+            {
+                NumberOfGuests = 12,
+                PoolDepth = 7
+            };
+
             poolParty.Setup();
-            poolParty.PoolDepth = 7;
-            Console.WriteLine($"Pool Depth: {poolParty.PoolDepth}");
+            WritePoolDetails(poolParty);
             poolParty.Teardown();
 
 
@@ -26,7 +31,8 @@ namespace PartyTime
             {
                 new KidBirthdayParty("John") { NumberOfGuests = 10 },
                 new BarBirthdayParty { NumberOfGuests = 15 },
-                new KidBirthdayParty("Paul") { NumberOfGuests = 20 },
+                new KidPoolBirthdayParty("Paul", 10) { NumberOfGuests = 20, PoolDepth = 5, LifeJacketsProvided = true },
+                new KidPoolBirthdayParty("George", 0) { NumberOfGuests = 2, PoolDepth = 1, LifeJacketsProvided = false },
             };
 
             for (int i = 0; i < bdayParties.Length; i++)
@@ -37,8 +43,20 @@ namespace PartyTime
                 Console.WriteLine($"Max Guests: {bdayParty.NumberOfGuests}");
                 Console.WriteLine($"Gifts? {bdayParty.AcceptGifts}");
 
+                if (bdayParty is IPoolParty bdayPoolParty)
+                {
+                    WritePoolDetails(bdayPoolParty);
+                }
+
                 bdayParty.Teardown();
             }
+        }
+
+        private static void WritePoolDetails(IPoolParty poolParty)
+        {
+            Console.WriteLine($"Pool Depth: {poolParty.PoolDepth}");
+            Console.WriteLine($"Life jackets provided? {poolParty.LifeJacketsProvided}");
+            Console.WriteLine($"Floaties provided? {poolParty.FloatiesProvided > 0}");
         }
     }
 }

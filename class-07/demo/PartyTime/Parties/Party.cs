@@ -47,6 +47,31 @@ namespace PartyTime.Parties
         }
     }
 
+    public class KidPoolBirthdayParty : KidBirthdayParty, IPoolParty
+    {
+        public KidPoolBirthdayParty(string name, int floatieCount) : base(name)
+        {
+            FloatiesProvided = floatieCount;
+        }
+
+        public decimal PoolDepth { get; set; }
+
+        public int FloatiesProvided { get; private set; }
+        public bool LifeJacketsProvided { get; set; }
+
+        public override void Setup()
+        {
+            base.Setup();
+            Console.WriteLine("Clean the pool.");
+        }
+
+        public override void Teardown()
+        {
+            Console.WriteLine("Drain pool; some kid probably peed.");
+            base.Teardown();
+        }
+    }
+
     public class BarBirthdayParty : BirthdayParty
     {
         public override bool AcceptGifts => false;
