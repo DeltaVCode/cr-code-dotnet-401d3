@@ -48,6 +48,16 @@ namespace PartyTime
                     WritePoolDetails(bdayPoolParty);
                 }
 
+                if (bdayParty is IHasCookout cookout)
+                {
+                    Console.WriteLine($"Foods: {string.Join(", ", cookout.Foods)}");
+                    cookout.AnnounceFoodIsReady();
+                }
+                else
+                {
+                    Console.WriteLine("No food provided.");
+                }
+
                 bdayParty.Teardown();
             }
         }

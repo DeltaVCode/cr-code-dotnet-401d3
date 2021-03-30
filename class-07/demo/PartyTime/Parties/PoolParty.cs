@@ -23,12 +23,19 @@ namespace PartyTime.Parties
             base.Teardown();
         }
 
+        public void TurnOnHeater()
+        {
+            Console.WriteLine("The heat is on...");
+        }
+
         // public abstract void Whatever(); // Cannot have abstract if type is not abstract
     }
 
     public interface IPoolParty
     {
         decimal PoolDepth { get; }
+
+        void TurnOnHeater();
 
         int FloatiesProvided { get; }
 

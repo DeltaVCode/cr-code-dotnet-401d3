@@ -26,10 +26,15 @@ namespace PartyTime.Parties
         public override void Setup()
         {
             Console.WriteLine("Invite guests.");
+
+            if (this is IPoolParty poolParty)
+            {
+                poolParty.TurnOnHeater();
+            }
         }
     }
 
-    public class KidBirthdayParty : BirthdayParty
+    public class KidBirthdayParty : BirthdayParty, IHasCookout
     {
         public KidBirthdayParty(string name)
         {
@@ -45,6 +50,20 @@ namespace PartyTime.Parties
             Console.WriteLine($"Ask {NameOfChild} whom they want to invite.");
             base.Setup();
         }
+
+        public virtual string[] Foods => new[] { "Burgers", "Hot Dogs" };
+
+        public void AnnounceFoodIsReady()
+        {
+            Console.WriteLine("Come and get it!");
+        }
+    }
+
+    public interface IHasCookout
+    {
+        string[] Foods { get; }
+
+        void AnnounceFoodIsReady();
     }
 
     public class KidPoolBirthdayParty : KidBirthdayParty, IPoolParty
@@ -59,6 +78,8 @@ namespace PartyTime.Parties
         public int FloatiesProvided { get; private set; }
         public bool LifeJacketsProvided { get; set; }
 
+        public override string[] Foods => new[] { "Veggie Burgers" };
+
         public override void Setup()
         {
             base.Setup();
@@ -69,6 +90,11 @@ namespace PartyTime.Parties
         {
             Console.WriteLine("Drain pool; some kid probably peed.");
             base.Teardown();
+        }
+
+        public void TurnOnHeater()
+        {
+            Console.WriteLine("Come on baby light my fire");
         }
     }
 
