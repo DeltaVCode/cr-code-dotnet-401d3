@@ -67,12 +67,12 @@ Test that your program has the following functionality:
     - Hint: `Assert.Contains(book, library)`
     - Hint: `Count` should increase
 1. Pack and Unpack your Backpack
-    - Hint: Backpack can store _anything_ so it may be easier to test with `string` or `int` instead of Book`
+    - Hint: Backpack can store _anything_ so it may be easier to test with `string` or `int` instead of `Book`
 
 ## Stretch Goals
 
 1. Update your DSA `LinkedList` to implement `IEnumerable<int>`
-    - Hint: `Assert.Equals(list, new[] { 1, 2, 3 })`
+    - Hint: `Assert.Equals(new[] { 1, 2, 3 }, list)`
 1. Update your DSA `LinkedList` to be generic, i.e. `class LinkedList<T> : IEnumerable<T>`
     - Be careful with `using`s, as `System.Collections.Generic` also contains `LinkedList<T>`
 1. Update `Library` to allow case-insensitive search by title

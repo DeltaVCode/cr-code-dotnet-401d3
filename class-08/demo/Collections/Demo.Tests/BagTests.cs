@@ -30,6 +30,9 @@ namespace Demo.Tests
             Assert.Equal(new[] { "Keith" }, bag);
             Assert.Equal(1, bag.Count);
 
+            Assert.Contains("Keith", bag);
+            Assert.DoesNotContain("Samantha", bag);
+
             // Act
             bag.Add("Samantha");
 
