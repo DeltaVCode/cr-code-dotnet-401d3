@@ -33,6 +33,15 @@ namespace Demo.Tests
             Assert.Contains("Keith", bag);
             Assert.DoesNotContain("Samantha", bag);
 
+            // Use an arrow function to check something about the value
+            Assert.Contains(bag, name => name.StartsWith("K"));
+
+            // This won't work if Book doesn't override Equals()
+            // Assert.Contains(new Book("Grapes of Wrath"), library);
+
+            // But this will let you check for any Book that has a matching Title
+            // Assert.Contains(library, book => book.Title == "Grapes of Wrath");
+
             // Act
             bag.Add("Samantha");
 
