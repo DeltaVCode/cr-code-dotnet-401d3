@@ -17,7 +17,9 @@ namespace LendingLibrary.Collections
 
         public T Unpack(int index)
         {
-            throw new System.NotImplementedException();
+            T removed = storage[index];
+            storage.RemoveAt(index);
+            return removed;
         }
 
         public IEnumerator<T> GetEnumerator()

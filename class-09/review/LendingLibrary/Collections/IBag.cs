@@ -12,6 +12,7 @@ namespace LendingLibrary.Collections
         /// <summary>
         /// Remove the item from the bag at the given index.
         /// </summary>
+        /// <exception cref="System.ArgumentOutOfRangeException">Index is out of range.</exception>
         /// <returns>The item that was removed.</returns>
         T Unpack(int index);
     }

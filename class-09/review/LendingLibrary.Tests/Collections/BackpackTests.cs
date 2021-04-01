@@ -1,3 +1,4 @@
+using System;
 using LendingLibrary.Collections;
 using Xunit;
 
@@ -48,6 +49,40 @@ namespace LendingLibrary.Tests.Collections
 
             // Assert
             Assert.Empty(bag);
+        }
+
+        [Fact]
+        public void Backpack_can_Unpack_something()
+        {
+            // Arrange
+            Backpack<string> bag = new Backpack<string>();
+            bag.Pack("Water Bottle");
+            bag.Pack("Compass");
+
+            // Act
+            string removed = bag.Unpack(0);
+
+            // Assert
+            Assert.Equal("Water Bottle", removed);
+            Assert.Equal(new[] { "Compass" }, bag);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(2)]
+        public void Backpack_cannot_Unpack_out_of_range(int badIndex)
+        {
+            // Arrange
+            Backpack<string> bag = new Backpack<string>();
+            bag.Pack("Water Bottle");
+            bag.Pack("Compass");
+
+            // Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                // Act
+                string removed = bag.Unpack(badIndex);
+            });
         }
     }
 }
