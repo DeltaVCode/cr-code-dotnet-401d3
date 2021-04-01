@@ -5,9 +5,11 @@ namespace LendingLibrary.Collections
 {
     public class Backpack<T> : IBag<T>
     {
+        private readonly List<T> storage = new List<T>();
+
         public void Pack(T item)
         {
-            throw new System.NotImplementedException();
+            storage.Add(item);
         }
 
         public T Unpack(int index)
@@ -17,7 +19,10 @@ namespace LendingLibrary.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            yield break;
+            foreach (T item in storage)
+            {
+                yield return item;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

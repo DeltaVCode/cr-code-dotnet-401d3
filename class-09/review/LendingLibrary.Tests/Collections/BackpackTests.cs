@@ -14,5 +14,27 @@ namespace LendingLibrary.Tests.Collections
             // Assert
             Assert.Empty(bag);
         }
+
+        [Fact]
+        public void Backpack_can_Pack_something()
+        {
+            // Arrange
+            Backpack<string> bag = new Backpack<string>();
+
+            string item1 = "Water Bottle";
+            string item2 = "Compass";
+
+            // Act
+            bag.Pack(item1);
+
+            // Assert
+            Assert.Equal(new[] { item1 }, bag);
+
+            // Act
+            bag.Pack(item2);
+
+            // Assert
+            Assert.Equal(new[] { item1, item2 }, bag);
+        }
     }
 }
