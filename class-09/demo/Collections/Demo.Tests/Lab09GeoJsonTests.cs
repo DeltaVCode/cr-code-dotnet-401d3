@@ -15,8 +15,12 @@ namespace Demo.Tests
             string data = File.ReadAllText(filename);
             Assert.NotEmpty(data);
 
-            // Assert
+            // Act
             RootObject root = JsonConvert.DeserializeObject<RootObject>(data);
+
+            // Assert
+            Assert.Equal("FeatureCollection", root.type);
+            Assert.NotEmpty(root.features);
         }
 
     }
