@@ -9,7 +9,10 @@ namespace LendingLibrary.Collections
 
         public void Pack(T item)
         {
-            storage.Add(item);
+            if (item != null)
+            {
+                storage.Add(item);
+            }
         }
 
         public T Unpack(int index)
