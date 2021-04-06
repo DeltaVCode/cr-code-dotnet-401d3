@@ -16,5 +16,7 @@ namespace DemoWeb.Data
 
         // Name of this property = name of the table
         public DbSet<Student> Students { get; set; }
+
+        public DbSet<Technology> Technologies { get; set; }
     }
 }
