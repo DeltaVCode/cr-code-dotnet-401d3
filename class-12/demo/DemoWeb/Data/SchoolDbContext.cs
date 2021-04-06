@@ -14,6 +14,19 @@ namespace DemoWeb.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Does nothing:
+            // base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Technology>()
+                .HasData(
+                    new Technology { Id = 1, Name = ".NET" },
+                    new Technology { Id = 2, Name = "JavaScript" },
+                    new Technology { Id = 3, Name = "Java" }
+                );
+        }
+
         // Name of this property = name of the table
         public DbSet<Student> Students { get; set; }
 
