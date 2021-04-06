@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DemoWeb.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace DemoWeb.Data
             : base(options)
         {
         }
+
+        // Name of this property = name of the table
+        public DbSet<Student> Students { get; set; }
     }
 }
