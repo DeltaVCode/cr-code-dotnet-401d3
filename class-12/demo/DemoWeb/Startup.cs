@@ -28,6 +28,9 @@ namespace DemoWeb
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Make sure controllers have what they need
+            services.AddControllers();
+
             services.AddDbContext<SchoolDbContext>(options => {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -49,6 +52,9 @@ namespace DemoWeb
 
             app.UseEndpoints(endpoints =>
             {
+                // Make sure controllers work
+                endpoints.MapControllers();
+
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
