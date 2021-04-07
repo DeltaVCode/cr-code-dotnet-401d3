@@ -19,6 +19,11 @@ namespace DemoWeb.Data
             // Does nothing:
             // base.OnModelCreating(modelBuilder);
 
+            SeedTechnologies(modelBuilder);
+        }
+
+        private static void SeedTechnologies(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Technology>()
                 .HasData(
                     new Technology { Id = 1, Name = ".NET" },
