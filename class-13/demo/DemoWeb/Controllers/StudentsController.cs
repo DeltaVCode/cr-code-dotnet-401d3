@@ -15,10 +15,12 @@ namespace DemoWeb.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly SchoolDbContext _context;
+        private readonly IStudentRepository studentRepository;
 
-        public StudentsController(SchoolDbContext context)
+        public StudentsController(SchoolDbContext context, IStudentRepository studentRepository)
         {
             _context = context;
+            this.studentRepository = studentRepository;
         }
 
         // GET: api/Students
