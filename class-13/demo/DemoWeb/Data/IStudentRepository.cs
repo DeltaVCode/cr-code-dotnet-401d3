@@ -11,6 +11,8 @@ namespace DemoWeb.Data
     public interface IStudentRepository
     {
         Task<IEnumerable<Student>> GetAllStudents();
+
+        Task CreateStudent(Student student);
     }
 
     // You should move this to a separate file
@@ -21,6 +23,12 @@ namespace DemoWeb.Data
         public DatabaseStudentRepository(SchoolDbContext context)
         {
             _context = context;
+        }
+
+        public async Task CreateStudent(Student student)
+        {
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Student>> GetAllStudents()

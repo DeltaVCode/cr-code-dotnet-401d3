@@ -82,8 +82,7 @@ namespace DemoWeb.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
-            _context.Students.Add(student);
-            await _context.SaveChangesAsync();
+            await studentRepository.CreateStudent(student);
 
             return CreatedAtAction("GetStudent", new { id = student.Id }, student);
         }
