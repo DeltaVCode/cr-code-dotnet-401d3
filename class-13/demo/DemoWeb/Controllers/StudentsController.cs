@@ -27,7 +27,9 @@ namespace DemoWeb.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            return await _context.Students.ToListAsync();
+            var students = await studentRepository.GetAllStudents();
+            return Ok(students);
+            //return await _context.Students.ToListAsync();
         }
 
         // GET: api/Students/5
