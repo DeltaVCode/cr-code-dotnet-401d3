@@ -15,6 +15,8 @@ namespace DemoWeb.Data
         Task CreateStudent(Student student);
 
         Task<Student> GetStudent(int id);
+
+        Task<bool> UpdateStudent(Student student);
     }
 
     // You should move this to a separate file
@@ -46,6 +48,36 @@ namespace DemoWeb.Data
         public async Task<Student> GetStudent(int id)
         {
             return await _context.Students.FindAsync(id);
+        }
+
+        public async Task<bool> UpdateStudent(Student student)
+        {
+            _context.Entry(student).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                // Save worked
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StudentExists(student.Id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+        }
+
+        private bool StudentExists(int id)
+        {
+            return _context.Students.Any(e => e.Id == id);
         }
     }
 }
