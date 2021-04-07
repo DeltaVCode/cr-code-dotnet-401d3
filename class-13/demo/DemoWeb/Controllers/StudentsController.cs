@@ -36,7 +36,7 @@ namespace DemoWeb.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = await studentRepository.GetStudent(id);
 
             if (student == null)
             {

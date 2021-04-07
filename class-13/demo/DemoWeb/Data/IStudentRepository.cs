@@ -13,6 +13,8 @@ namespace DemoWeb.Data
         Task<IEnumerable<Student>> GetAllStudents();
 
         Task CreateStudent(Student student);
+
+        Task<Student> GetStudent(int id);
     }
 
     // You should move this to a separate file
@@ -39,6 +41,11 @@ namespace DemoWeb.Data
             //};
 
             return await _context.Students.ToListAsync();
+        }
+
+        public async Task<Student> GetStudent(int id)
+        {
+            return await _context.Students.FindAsync(id);
         }
     }
 }
