@@ -13,4 +13,10 @@
 
         public bool Passed { get; set; }
     }
+
+    public class CreateTranscript
+    {
+        public int CourseId { get; set; }
+        public Grade Grade { get; set; }
+    }
 }

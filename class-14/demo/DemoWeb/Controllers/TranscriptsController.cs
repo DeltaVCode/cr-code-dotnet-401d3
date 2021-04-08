@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DemoWeb.Models;
 using DemoWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,8 +37,10 @@ namespace DemoWeb.Controllers
 
         // POST api/<TranscriptsController>
         [HttpPost]
-        public void Post(int studentId, [FromBody] string value)
+        public async Task Post(int studentId, [FromBody] CreateTranscript transcript)
         {
+            await transcriptRepository.AddToTranscript(studentId, transcript);
+            // TODO: return CreatedAtAction();
         }
 
         // PUT api/<TranscriptsController>/5
