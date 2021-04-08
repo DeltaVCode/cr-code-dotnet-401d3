@@ -19,16 +19,18 @@ namespace DemoWeb.Data
             // Does nothing:
             // base.OnModelCreating(modelBuilder);
 
-            SeedTechnologies(modelBuilder);
-        }
-
-        private static void SeedTechnologies(ModelBuilder modelBuilder)
-        {
             modelBuilder.Entity<Enrollment>()
                 .HasKey(enrollment => new // anonymous type, similar to JS {}
                 {
                     enrollment.CourseId,
                     enrollment.StudentId,
+                });
+
+            modelBuilder.Entity<Transcript>()
+                .HasKey(transcript => new
+                {
+                    transcript.StudentId,
+                    transcript.CourseId,
                 });
 
             modelBuilder.Entity<Technology>()
@@ -64,6 +66,8 @@ namespace DemoWeb.Data
         public DbSet<Enrollment> Enrollments { get; set; }
 
         public DbSet<Student> Students { get; set; }
+
+        public DbSet<Transcript> Transcripts { get; set; }
 
         public DbSet<Technology> Technologies { get; set; }
     }
