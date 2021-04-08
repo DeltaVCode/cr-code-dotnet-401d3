@@ -27,9 +27,13 @@ namespace DemoWeb.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            var students = await studentRepository.GetAllStudents();
+            IEnumerable<Student> students = await studentRepository.GetAllStudents();
+            //return new ActionResult<IEnumerable<Student>>(students);
+            //return new ActionResult<IEnumerable<Student>>(Ok(students));
             return Ok(students);
-            //return await _context.Students.ToListAsync();
+
+            //IEnumerable<Student> students = await _context.Students.ToListAsync();
+            //return students;
         }
 
         // GET: api/Students/5
@@ -40,10 +44,12 @@ namespace DemoWeb.Controllers
 
             if (student == null)
             {
-                return NotFound();
+                //return new ActionResult<Student>(NotFound());
+                return NotFound(); // Implicit conversion to ActionResult<Student>
             }
 
-            return student;
+            // return new ActionResult<Student>(student);
+            return student; // Implicit conversion to ActionResult<Student>
         }
 
         // PUT: api/Students/5

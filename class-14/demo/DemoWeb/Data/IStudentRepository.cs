@@ -10,7 +10,7 @@ namespace DemoWeb.Data
 {
     public interface IStudentRepository
     {
-        Task<IEnumerable<Student>> GetAllStudents();
+        Task<List<Student>> GetAllStudents();
 
         Task CreateStudent(Student student);
 
@@ -35,7 +35,7 @@ namespace DemoWeb.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudents()
         {
             //return new[]
             //{
