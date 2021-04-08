@@ -26,5 +26,10 @@ namespace DemoWeb.Services.Database
             _context.Transcripts.Add(transcript);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Transcript> GetTranscript(int studentId, int courseId)
+        {
+            return await _context.Transcripts.FindAsync(studentId, courseId);
+        }
     }
 }

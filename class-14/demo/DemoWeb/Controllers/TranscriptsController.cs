@@ -29,10 +29,14 @@ namespace DemoWeb.Controllers
         }
 
         // GET api/<TranscriptsController>/5
-        [HttpGet("{id}")]
-        public string Get(int studentId, int id)
+        [HttpGet("{courseId}")]
+        public async Task<ActionResult<Transcript>> Get(int studentId, int courseId)
         {
-            return "value";
+            var transcript = await transcriptRepository.GetTranscript(studentId, courseId);
+            if (transcript == null)
+                return NotFound();
+
+            return transcript;
         }
 
         // POST api/<TranscriptsController>
