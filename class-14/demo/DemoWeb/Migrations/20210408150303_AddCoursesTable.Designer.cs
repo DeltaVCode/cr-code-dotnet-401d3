@@ -4,14 +4,16 @@ using DemoWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemoWeb.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210408150303_AddCoursesTable")]
+    partial class AddCoursesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,28 +49,6 @@ namespace DemoWeb.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DemoWeb.Models.Enrollment", b =>
-                {
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CourseId", "StudentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Enrollments");
-
-                    b.HasData(
-                        new
-                        {
-                            CourseId = 1001,
-                            StudentId = 42
-                        });
-                });
-
             modelBuilder.Entity("DemoWeb.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -92,14 +72,6 @@ namespace DemoWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 42,
-                            FirstName = "Douglas",
-                            LastName = "Adams"
-                        });
                 });
 
             modelBuilder.Entity("DemoWeb.Models.Technology", b =>
@@ -134,65 +106,6 @@ namespace DemoWeb.Migrations
                             Id = 3,
                             Name = "Java"
                         });
-                });
-
-            modelBuilder.Entity("DemoWeb.Models.Transcript", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Passed")
-                        .HasColumnType("bit");
-
-                    b.HasKey("StudentId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Transcripts");
-                });
-
-            modelBuilder.Entity("DemoWeb.Models.Enrollment", b =>
-                {
-                    b.HasOne("DemoWeb.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DemoWeb.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("DemoWeb.Models.Transcript", b =>
-                {
-                    b.HasOne("DemoWeb.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DemoWeb.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 #pragma warning restore 612, 618
         }
