@@ -107,5 +107,20 @@ namespace DemoWeb.Controllers
         {
             return _context.Courses.Any(e => e.Id == id);
         }
+
+
+        // Student Enrollment Actions:
+
+        [HttpPost("{courseId}/Students/{studentId}")]
+        public async Task<IActionResult> EnrollStudent(int courseId, int studentId)
+        {
+            return NoContent();
+        }
+
+        [HttpDelete("{courseId}/Students/{studentId}")]
+        public async Task<IActionResult> UnenrollStudent(int courseId, int studentId)
+        {
+            return NoContent();
+        }
     }
 }
