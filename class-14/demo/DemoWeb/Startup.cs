@@ -1,4 +1,6 @@
 using DemoWeb.Data;
+using DemoWeb.Services;
+using DemoWeb.Services.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +41,7 @@ namespace DemoWeb
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
         }
 

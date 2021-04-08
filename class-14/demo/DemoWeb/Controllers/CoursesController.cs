@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DemoWeb.Data;
 using DemoWeb.Models;
+using DemoWeb.Services;
 
 namespace DemoWeb.Controllers
 {
@@ -15,10 +16,12 @@ namespace DemoWeb.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly SchoolDbContext _context;
+        private readonly ICourseRepository courseRepository;
 
-        public CoursesController(SchoolDbContext context)
+        public CoursesController(SchoolDbContext context, ICourseRepository courseRepository)
         {
             _context = context;
+            this.courseRepository = courseRepository;
         }
 
         // GET: api/Courses
