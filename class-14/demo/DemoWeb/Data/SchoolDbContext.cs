@@ -30,9 +30,20 @@ namespace DemoWeb.Data
                     new Technology { Id = 2, Name = "JavaScript" },
                     new Technology { Id = 3, Name = "Java" }
                 );
+
+            // Option 1 to remove the decimal warning
+            modelBuilder.Entity<Course>()
+                .Property(c => c.Price).HasColumnType("money");
+
+            modelBuilder.Entity<Course>()
+                .HasData(
+                    new Course { Id = 1001, CourseCode = "cr-dotnetd3", Price = 100m }
+                );
         }
 
         // Name of this property = name of the table
+        public DbSet<Course> Courses { get; set; }
+
         public DbSet<Student> Students { get; set; }
 
         public DbSet<Technology> Technologies { get; set; }
