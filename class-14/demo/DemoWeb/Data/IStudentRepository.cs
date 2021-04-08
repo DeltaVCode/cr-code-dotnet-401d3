@@ -17,6 +17,9 @@ namespace DemoWeb.Data
         Task<Student> GetStudent(int id);
 
         Task<bool> UpdateStudent(Student student);
+
+        Task DeleteStudent(int id);
+        Task DeleteStudent(Student student);
     }
 
     // You should move this to a separate file
@@ -32,6 +35,19 @@ namespace DemoWeb.Data
         public async Task CreateStudent(Student student)
         {
             _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteStudent(int id)
+        {
+            Student student = await GetStudent(id);
+            await DeleteStudent(student);
+        }
+
+        public async Task DeleteStudent(Student student)
+        {
+            _context.Entry(student).State = EntityState.Deleted;
+            // or _context.Students.Remove(student);
             await _context.SaveChangesAsync();
         }
 

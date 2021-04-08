@@ -84,14 +84,14 @@ namespace DemoWeb.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = await studentRepository.GetStudent(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+
+            await studentRepository.DeleteStudent(student);
 
             return NoContent();
         }
