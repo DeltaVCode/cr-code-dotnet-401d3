@@ -18,7 +18,8 @@ namespace DemoWeb.Data
 
         Task<bool> UpdateStudent(Student student);
 
-        Task DeleteStudent(int id);
+        Task<bool> DeleteStudent(int id);
+
         Task DeleteStudent(Student student);
     }
 
@@ -38,10 +39,16 @@ namespace DemoWeb.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteStudent(int id)
+        public async Task<bool> DeleteStudent(int id)
         {
             Student student = await GetStudent(id);
+            if (student == null)
+            {
+                return false;
+            }
+
             await DeleteStudent(student);
+            return true;
         }
 
         public async Task DeleteStudent(Student student)
