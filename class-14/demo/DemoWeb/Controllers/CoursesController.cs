@@ -114,12 +114,22 @@ namespace DemoWeb.Controllers
         [HttpPost("{courseId}/Students/{studentId}")]
         public async Task<IActionResult> EnrollStudent(int courseId, int studentId)
         {
+            if (!await courseRepository.AddStudentEnrollment(courseId, studentId))
+            {
+                return NotFound();
+            }
+
             return NoContent();
         }
 
         [HttpDelete("{courseId}/Students/{studentId}")]
         public async Task<IActionResult> UnenrollStudent(int courseId, int studentId)
         {
+            if (!await courseRepository.DeleteStudentEnrollment(courseId, studentId))
+            {
+                return NotFound();
+            }
+
             return NoContent();
         }
     }

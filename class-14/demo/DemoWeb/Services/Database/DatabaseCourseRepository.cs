@@ -15,5 +15,14 @@ namespace DemoWeb.Services.Database
             _context = context;
         }
 
+        public async Task<bool> AddStudentEnrollment(int courseId, int studentId)
+        {
+            return true;
+        }
+
+        public async Task<bool> DeleteStudentEnrollment(int courseId, int studentId)
+        {
+            return true;
+        }
     }
 }
