@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DemoWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,9 +13,16 @@ namespace DemoWeb.Controllers
     [ApiController]
     public class TranscriptsController : ControllerBase
     {
+        private readonly ITranscriptRepository transcriptRepository;
+
+        public TranscriptsController(ITranscriptRepository transcriptRepository)
+        {
+            this.transcriptRepository = transcriptRepository;
+        }
+
         // GET: api/<TranscriptsController>
         [HttpGet]
-        public IEnumerable<string> Get(int studentId)
+        public async Task<IEnumerable<string>> Get(int studentId)
         {
             return new string[] { "value1", "value2" };
         }

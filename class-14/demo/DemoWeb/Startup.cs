@@ -43,6 +43,7 @@ namespace DemoWeb
 
             services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
+            services.AddTransient<ITranscriptRepository, DatabaseTranscriptRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
