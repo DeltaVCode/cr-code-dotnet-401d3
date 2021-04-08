@@ -4,14 +4,16 @@ using DemoWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemoWeb.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210408154026_AddEnrollmentsTable")]
+    partial class AddEnrollmentsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,13 +60,6 @@ namespace DemoWeb.Migrations
                     b.HasKey("CourseId", "StudentId");
 
                     b.ToTable("Enrollments");
-
-                    b.HasData(
-                        new
-                        {
-                            CourseId = 1001,
-                            StudentId = 42
-                        });
                 });
 
             modelBuilder.Entity("DemoWeb.Models.Student", b =>
@@ -90,14 +85,6 @@ namespace DemoWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 42,
-                            FirstName = "Douglas",
-                            LastName = "Adams"
-                        });
                 });
 
             modelBuilder.Entity("DemoWeb.Models.Technology", b =>
