@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,16 @@ namespace DemoWeb
             // Make sure controllers have what they need
             services.AddControllers();
 
+            services.AddSwaggerGen(options =>
+            {
+                // Make sure get the "using Statement"
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "School Demo",
+                    Version = "v1",
+                });
+            });
+
             services.AddDbContext<SchoolDbContext>(options => {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -54,6 +65,15 @@ namespace DemoWeb
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger(options => {
+                options.RouteTemplate = "/api/{documentName}/swagger.json";
+            });
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/api/v1/swagger.json", "Student Demo");
+                options.RoutePrefix = "docs";
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -63,7 +83,8 @@ namespace DemoWeb
 
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
+                    context.Response.Redirect("/docs"); // Temp redirect
+                    // await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
                 });
             });
         }
