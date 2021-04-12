@@ -69,6 +69,11 @@ namespace DemoWeb
                 options.RouteTemplate = "/api/{documentName}/swagger.json";
             });
 
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/api/v1/swagger.json", "Student Demo");
+                options.RoutePrefix = "docs";
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -78,7 +83,8 @@ namespace DemoWeb
 
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
+                    context.Response.Redirect("/docs"); // Temp redirect
+                    // await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
                 });
             });
         }
