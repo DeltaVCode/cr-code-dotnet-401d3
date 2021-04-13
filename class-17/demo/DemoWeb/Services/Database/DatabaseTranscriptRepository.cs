@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Data;
@@ -67,6 +68,20 @@ namespace DemoWeb.Services.Database
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<TranscriptDto>> GetAll(int studentId)
+        {
+            return await _context.Transcripts
+                .Select(transcript => new TranscriptDto
+                {
+                    StudentId = transcript.StudentId,
+                    CourseId = transcript.CourseId,
+                    CourseCode = transcript.Course.CourseCode,
+                    // TechnologyName = transcript.Course.Technology.Name,
+                    Grade = transcript.Grade.ToString(),
+                })
+                .ToListAsync();
         }
     }
 }

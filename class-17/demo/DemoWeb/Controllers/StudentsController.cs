@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DemoWeb.Data;
 using DemoWeb.Models;
+using DemoWeb.Models.Api;
 
 namespace DemoWeb.Controllers
 {
@@ -38,7 +39,7 @@ namespace DemoWeb.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
+        public async Task<ActionResult<StudentDto>> GetStudent(int id)
         {
             var student = await studentRepository.GetStudent(id);
 

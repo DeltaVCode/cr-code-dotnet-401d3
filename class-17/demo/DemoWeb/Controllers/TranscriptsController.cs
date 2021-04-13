@@ -24,9 +24,9 @@ namespace DemoWeb.Controllers
 
         // GET: api/<TranscriptsController>
         [HttpGet]
-        public async Task<IEnumerable<string>> Get(int studentId)
+        public async Task<List<TranscriptDto>> Get(int studentId)
         {
-            return new string[] { "value1", "value2" };
+            return await transcriptRepository.GetAll(studentId);
         }
 
         // GET api/<TranscriptsController>/5

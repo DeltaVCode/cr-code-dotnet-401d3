@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Models;
+using DemoWeb.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ namespace DemoWeb.Data
 
         Task CreateStudent(Student student);
 
-        Task<Student> GetStudent(int id);
+        Task<StudentDto> GetStudent(int id);
 
         Task<bool> UpdateStudent(Student student);
 
@@ -41,7 +42,8 @@ namespace DemoWeb.Data
 
         public async Task<bool> DeleteStudent(int id)
         {
-            Student student = await GetStudent(id);
+            // Student student = await GetStudent(); // Doesn't work because GetStudent returns DTO
+            Student student =  await _context.Students.FindAsync(id);
             if (student == null)
             {
                 return false;
@@ -68,15 +70,41 @@ namespace DemoWeb.Data
             return await _context.Students.ToListAsync();
         }
 
-        public async Task<Student> GetStudent(int id)
+        public async Task<StudentDto> GetStudent(int id)
         {
             return await _context.Students
-                .Include(s => s.Transcripts)
-                .ThenInclude(t => t.Course)
-                .Include(s => s.Enrollments)
-                .ThenInclude(e => e.Course)
+                //.Include(s => s.Transcripts)
+                //.ThenInclude(t => t.Course)
+                //.Include(s => s.Enrollments)
+                //.ThenInclude(e => e.Course)
                 // .FindAsync(id);
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .Select(student => new StudentDto
+                {
+                    StudentId = student.Id,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+
+                    // Sub-join select thing
+                    CurrentCourses = student.Enrollments
+                        .Select(e => new StudentCourseDto
+                        {
+                            CourseId = e.CourseId,
+                            CourseCode = e.Course.CourseCode,
+                        })
+                        .ToList(),
+
+                    Transcript = student.Transcripts
+                        .Select(t => new TranscriptDto
+                        {
+                            StudentId = student.Id,
+                            CourseId = t.Course.Id,
+                            CourseCode = t.Course.CourseCode,
+                            // TechnologyName = t.Course.Technology.Name,
+                            Grade = t.Grade.ToString(),
+                        })
+                        .ToList(),
+                })
+                .FirstOrDefaultAsync(s => s.StudentId == id);
         }
 
         public async Task<bool> UpdateStudent(Student student)
