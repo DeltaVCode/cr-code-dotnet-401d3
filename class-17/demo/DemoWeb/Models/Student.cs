@@ -21,5 +21,10 @@ namespace DemoWeb.Models
 
         [Column(TypeName = "date")]
         public DateTime? BirthDate { get; set; }
+
+
+        // Reverse Navigation Property
+        public List<Transcript> Transcripts { get; set; }
+        public List<Enrollment> Enrollments { get; set; }
     }
 }

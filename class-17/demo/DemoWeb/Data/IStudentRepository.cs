@@ -70,7 +70,13 @@ namespace DemoWeb.Data
 
         public async Task<Student> GetStudent(int id)
         {
-            return await _context.Students.FindAsync(id);
+            return await _context.Students
+                .Include(s => s.Transcripts)
+                .ThenInclude(t => t.Course)
+                .Include(s => s.Enrollments)
+                .ThenInclude(e => e.Course)
+                // .FindAsync(id);
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<bool> UpdateStudent(Student student)
