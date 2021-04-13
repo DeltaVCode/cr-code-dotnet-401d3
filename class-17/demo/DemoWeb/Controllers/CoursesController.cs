@@ -30,6 +30,7 @@ namespace DemoWeb.Controllers
         {
             return await _context.Courses
                 .Include(c => c.Enrollments)
+                .ThenInclude(e => e.Student)
                 .ToListAsync();
         }
 
