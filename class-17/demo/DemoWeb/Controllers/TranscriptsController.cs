@@ -48,9 +48,16 @@ namespace DemoWeb.Controllers
         }
 
         // PUT api/<TranscriptsController>/5
-        [HttpPut("{id}")]
-        public void Put(int studentId, int id, [FromBody] string value)
+        [HttpPut("{courseId}")]
+        public async Task<IActionResult> Put(int studentId, int courseId, [FromBody] CreateTranscript transcript)
         {
+            if (courseId != transcript.CourseId)
+                return BadRequest();
+
+            if (!await transcriptRepository.UpdateTranscript(studentId, transcript))
+                return NotFound();
+
+            return NoContent();
         }
 
         // DELETE api/<TranscriptsController>/5

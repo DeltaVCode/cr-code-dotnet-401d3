@@ -7,5 +7,6 @@ namespace DemoWeb.Services
     {
         Task AddToTranscript(int studentId, CreateTranscript transcript);
         Task<Transcript> GetTranscript(int studentId, int courseId);
+        Task<bool> UpdateTranscript(int studentId, CreateTranscript transcript);
     }
 }
