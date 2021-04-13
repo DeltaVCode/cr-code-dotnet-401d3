@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DemoWeb.Data;
 using DemoWeb.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +17,24 @@ namespace DemoWeb.Services.Database
 
         public async Task AddToTranscript(int studentId, CreateTranscript createTranscript)
         {
+            Grade grade = ParseGrade(createTranscript);
+
             var transcript = new Transcript
             {
                 StudentId = studentId,
                 CourseId = createTranscript.CourseId,
-                Grade = createTranscript.Grade,
-                Passed = createTranscript.Grade != Grade.F,
+                Grade = grade,
+                Passed = grade != Grade.F,
             };
 
             _context.Transcripts.Add(transcript);
             await _context.SaveChangesAsync();
+        }
+
+        private static Grade ParseGrade(CreateTranscript createTranscript)
+        {
+            // Turn string Grade into an enum Grade
+            return Enum.Parse<Grade>(createTranscript.Grade);
         }
 
         public async Task<Transcript> GetTranscript(int studentId, int courseId)
@@ -40,7 +49,7 @@ namespace DemoWeb.Services.Database
                 return false;
 
             // TODO: Update all fields from transcript
-            transcriptToUpdate.Grade = transcript.Grade;
+            transcriptToUpdate.Grade = ParseGrade(transcript);
 
             _context.Entry(transcriptToUpdate).State = EntityState.Modified;
 
