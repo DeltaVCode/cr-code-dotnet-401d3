@@ -21,5 +21,9 @@ namespace DemoWeb.Models
 
         [Column(TypeName = "money")]
         public decimal? VeteranPrice { get; set; }
+
+
+        // Reverse Navigation Property
+        public List<Enrollment> Enrollments { get; set; }
     }
 }

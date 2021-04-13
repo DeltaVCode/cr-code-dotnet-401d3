@@ -28,7 +28,9 @@ namespace DemoWeb.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            return await _context.Courses.ToListAsync();
+            return await _context.Courses
+                .Include(c => c.Enrollments)
+                .ToListAsync();
         }
 
         // GET: api/Courses/5
