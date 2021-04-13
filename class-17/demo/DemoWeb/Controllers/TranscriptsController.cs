@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Models;
+using DemoWeb.Models.Api;
 using DemoWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,7 @@ namespace DemoWeb.Controllers
 
         // GET api/<TranscriptsController>/5
         [HttpGet("{courseId}")]
-        public async Task<ActionResult<Transcript>> Get(int studentId, int courseId)
+        public async Task<ActionResult<TranscriptDto>> Get(int studentId, int courseId)
         {
             var transcript = await transcriptRepository.GetTranscript(studentId, courseId);
             if (transcript == null)

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Data;
 using DemoWeb.Models;
+using DemoWeb.Models.Api;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoWeb.Services.Database
@@ -37,9 +39,19 @@ namespace DemoWeb.Services.Database
             return Enum.Parse<Grade>(createTranscript.Grade);
         }
 
-        public async Task<Transcript> GetTranscript(int studentId, int courseId)
+        public async Task<TranscriptDto> GetTranscript(int studentId, int courseId)
         {
-            return await _context.Transcripts.FindAsync(studentId, courseId);
+            return await _context.Transcripts
+                .Select(transcript => new TranscriptDto
+                {
+                    StudentId = transcript.StudentId,
+                    CourseId = transcript.CourseId,
+                    CourseCode = transcript.Course.CourseCode,
+                    // TechnologyName = transcript.Course.Technology.Name,
+                    Grade = transcript.Grade.ToString(),
+                })
+                // .FindAsync(studentId, courseId);
+                .FirstOrDefaultAsync(t => t.StudentId == studentId && t.CourseId == courseId);
         }
 
         public async Task<bool> UpdateTranscript(int studentId, CreateTranscript transcript)
