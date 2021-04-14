@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Models.Api;
+using DemoWeb.Models.Identity;
 using DemoWeb.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,16 @@ namespace DemoWeb.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterData data)
+        public async Task<ActionResult<ApplicationUser>> Register(RegisterData data)
         {
-            return Ok();
+            var user = await userService.Register(data, this.ModelState);
+            if (!ModelState.IsValid)
+            {
+                // Replicates normal validation error response
+                return BadRequest(new ValidationProblemDetails(ModelState));
+            }
+
+            return Ok(user);
         }
     }
 }
