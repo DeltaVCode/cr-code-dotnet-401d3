@@ -15,7 +15,7 @@ namespace DemoWeb.Services
             this.userManager = userManager;
         }
 
-        public async Task<ApplicationUser> Register(RegisterData data, ModelStateDictionary modelState)
+        public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
@@ -29,7 +29,11 @@ namespace DemoWeb.Services
 
             if (result.Succeeded)
             {
-                return user;
+                return new UserDto
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                };
             }
 
             foreach(var error in result.Errors)
