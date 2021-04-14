@@ -8,5 +8,6 @@ namespace DemoWeb.Models.Identity
 {
     public class ApplicationUser : IdentityUser
     {
+        public DateTime? DeltaVGraduationDate { get; set; }
     }
 }

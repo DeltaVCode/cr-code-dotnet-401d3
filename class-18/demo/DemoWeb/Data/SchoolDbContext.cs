@@ -1,4 +1,6 @@
 ﻿using DemoWeb.Models;
+using DemoWeb.Models.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DemoWeb.Data
 {
-    public class SchoolDbContext : DbContext
+    public class SchoolDbContext : IdentityDbContext<ApplicationUser>
     {
         public SchoolDbContext(DbContextOptions options)
             : base(options)
@@ -16,8 +18,8 @@ namespace DemoWeb.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Does nothing:
-            // base.OnModelCreating(modelBuilder);
+            // We now have to have this because IdentityDbContext does stuff
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Enrollment>()
                 .HasKey(enrollment => new // anonymous type, similar to JS {}
