@@ -1,9 +1,11 @@
 using DemoWeb.Data;
+using DemoWeb.Models.Identity;
 using DemoWeb.Services;
 using DemoWeb.Services.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,6 +57,15 @@ namespace DemoWeb
                     throw new InvalidOperationException("Connection string is not set.");
                 options.UseSqlServer(connectionString);
             });
+
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<SchoolDbContext>();
+
+            services.AddTransient<IUserService, IdentityUserService>();
 
             services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
