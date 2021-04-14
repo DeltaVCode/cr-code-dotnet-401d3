@@ -1,4 +1,6 @@
-﻿namespace DemoWeb.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DemoWeb.Models
 {
     public class Transcript
     {
@@ -17,6 +19,8 @@
     public class CreateTranscript
     {
         public int CourseId { get; set; }
-        public Grade Grade { get; set; }
+
+        [Required]
+        public string Grade { get; set; }
     }
 }

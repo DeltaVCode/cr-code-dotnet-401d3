@@ -28,14 +28,21 @@ namespace DemoWeb.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            return await _context.Courses.ToListAsync();
+            return await _context.Courses
+                .Include(c => c.Enrollments)
+                .ThenInclude(e => e.Student)
+                .ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _context.Courses
+                .Include(c => c.Enrollments)
+                .ThenInclude(e => e.Student)
+                // .FindAsync(id); // Does not exist for IQueryable<Course>
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (course == null)
             {

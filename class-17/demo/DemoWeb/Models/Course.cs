@@ -18,5 +18,12 @@ namespace DemoWeb.Models
         // Option 2 to fix decimal warning, superseded by OnModelCreating
         [Column(TypeName = "decimal(18,4)")]
         public decimal Price { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? VeteranPrice { get; set; }
+
+
+        // Reverse Navigation Property
+        public List<Enrollment> Enrollments { get; set; }
     }
 }
