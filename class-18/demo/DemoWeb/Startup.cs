@@ -65,6 +65,8 @@ namespace DemoWeb
                 })
                 .AddEntityFrameworkStores<SchoolDbContext>();
 
+            services.AddTransient<IUserService, IdentityUserService>();
+
             services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
             services.AddTransient<ITranscriptRepository, DatabaseTranscriptRepository>();
