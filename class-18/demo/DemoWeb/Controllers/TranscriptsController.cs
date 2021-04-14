@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoWeb.Models;
+using DemoWeb.Models.Api;
 using DemoWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,14 +24,14 @@ namespace DemoWeb.Controllers
 
         // GET: api/<TranscriptsController>
         [HttpGet]
-        public async Task<IEnumerable<string>> Get(int studentId)
+        public async Task<List<TranscriptDto>> Get(int studentId)
         {
-            return new string[] { "value1", "value2" };
+            return await transcriptRepository.GetAll(studentId);
         }
 
         // GET api/<TranscriptsController>/5
         [HttpGet("{courseId}")]
-        public async Task<ActionResult<Transcript>> Get(int studentId, int courseId)
+        public async Task<ActionResult<TranscriptDto>> Get(int studentId, int courseId)
         {
             var transcript = await transcriptRepository.GetTranscript(studentId, courseId);
             if (transcript == null)
@@ -48,9 +49,16 @@ namespace DemoWeb.Controllers
         }
 
         // PUT api/<TranscriptsController>/5
-        [HttpPut("{id}")]
-        public void Put(int studentId, int id, [FromBody] string value)
+        [HttpPut("{courseId}")]
+        public async Task<IActionResult> Put(int studentId, int courseId, [FromBody] CreateTranscript transcript)
         {
+            if (courseId != transcript.CourseId)
+                return BadRequest();
+
+            if (!await transcriptRepository.UpdateTranscript(studentId, transcript))
+                return NotFound();
+
+            return NoContent();
         }
 
         // DELETE api/<TranscriptsController>/5
