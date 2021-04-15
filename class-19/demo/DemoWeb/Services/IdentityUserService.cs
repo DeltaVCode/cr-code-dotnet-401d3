@@ -21,11 +21,7 @@ namespace DemoWeb.Services
 
             if (await userManager.CheckPasswordAsync(user, password))
             {
-                return new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.UserName,
-                };
+                return GetUserDto(user);
             }
 
             if (user != null)
@@ -48,11 +44,7 @@ namespace DemoWeb.Services
 
             if (result.Succeeded)
             {
-                return new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.UserName,
-                };
+                return GetUserDto(user);
             }
 
             foreach (var error in result.Errors)
@@ -66,6 +58,15 @@ namespace DemoWeb.Services
             }
 
             return null;
+        }
+
+        private static UserDto GetUserDto(ApplicationUser user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Username = user.UserName,
+            };
         }
     }
 }
