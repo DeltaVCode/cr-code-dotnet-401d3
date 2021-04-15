@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DemoWeb.Models.Api;
 using DemoWeb.Models.Identity;
@@ -31,6 +32,12 @@ namespace DemoWeb.Services
                 await userManager.AccessFailedAsync(user);
 
             return null;
+        }
+
+        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+        {
+            var user = await userManager.GetUserAsync(principal);
+            return await GetUserDtoAsync(user);
         }
 
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)

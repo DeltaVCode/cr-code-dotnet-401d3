@@ -92,6 +92,8 @@ namespace DemoWeb
 
             app.UseRouting();
 
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 // Make sure controllers work

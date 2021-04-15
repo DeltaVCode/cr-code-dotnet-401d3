@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DemoWeb.Models.Api;
 using DemoWeb.Models.Identity;
 using DemoWeb.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,13 @@ namespace DemoWeb.Controllers
             }
 
             return user;
+        }
+
+        [Authorize]
+        [HttpGet("Self")]
+        public async Task<UserDto> Self()
+        {
+            return await userService.GetUser(this.User);
         }
     }
 }
