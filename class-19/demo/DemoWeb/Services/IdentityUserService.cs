@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DemoWeb.Models.Api;
 using DemoWeb.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +24,7 @@ namespace DemoWeb.Services
 
             if (await userManager.CheckPasswordAsync(user, password))
             {
-                return GetUserDto(user);
+                return await GetUserDtoAsync(user);
             }
 
             if (user != null)
@@ -46,7 +47,7 @@ namespace DemoWeb.Services
 
             if (result.Succeeded)
             {
-                return GetUserDto(user);
+                return await GetUserDtoAsync(user);
             }
 
             foreach (var error in result.Errors)
@@ -62,12 +63,13 @@ namespace DemoWeb.Services
             return null;
         }
 
-        private static UserDto GetUserDto(ApplicationUser user)
+        private async Task<UserDto> GetUserDtoAsync(ApplicationUser user)
         {
             return new UserDto
             {
                 Id = user.Id,
                 Username = user.UserName,
+                Token = await tokenService.GetToken(user, TimeSpan.FromMinutes(5)),
             };
         }
     }
