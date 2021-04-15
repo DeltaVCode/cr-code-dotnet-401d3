@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DemoWeb.Models.Api;
@@ -54,6 +55,15 @@ namespace DemoWeb.Services
 
             if (result.Succeeded)
             {
+                if (data.Roles?.Any() == true)
+                {
+                    await userManager.AddToRolesAsync(user, data.Roles);
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, "student");
+                }
+
                 return await GetUserDtoAsync(user);
             }
 
