@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +38,11 @@ namespace DemoWeb
         public void ConfigureServices(IServiceCollection services)
         {
             // Make sure controllers have what they need
-            services.AddControllers()
+            services
+                .AddControllers(options =>
+                {
+                    options.Filters.Add(new AuthorizeFilter());
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -63,7 +68,8 @@ namespace DemoWeb
                 options.OperationFilter<AuthenticationRequirementOperationFilter>();
             });
 
-            services.AddDbContext<SchoolDbContext>(options => {
+            services.AddDbContext<SchoolDbContext>(options =>
+            {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 if (connectionString == null)
@@ -108,11 +114,13 @@ namespace DemoWeb
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(options => {
+            app.UseSwagger(options =>
+            {
                 options.RouteTemplate = "/api/{documentName}/swagger.json";
             });
 
-            app.UseSwaggerUI(options => {
+            app.UseSwaggerUI(options =>
+            {
                 options.SwaggerEndpoint("/api/v1/swagger.json", "Student Demo");
                 options.RoutePrefix = "docs";
             });
