@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,13 @@ namespace DemoWeb.Services
 
             var signingKey = GetSecurityKey(configuration);
 
-            return "token!";
+            var token = new JwtSecurityToken(
+                expires: DateTime.UtcNow + expiresIn,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+                claims: principal.Claims
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         private static SecurityKey GetSecurityKey(IConfiguration configuration)
