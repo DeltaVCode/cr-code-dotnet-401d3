@@ -16,6 +16,9 @@ namespace DemoWeb.Models
         public bool Passed { get; set; }
     }
 
+    /// <summary>
+    /// Represents data needed to create a Transcript entry for some student.
+    /// </summary>
     public class CreateTranscript
     {
         public int CourseId { get; set; }
