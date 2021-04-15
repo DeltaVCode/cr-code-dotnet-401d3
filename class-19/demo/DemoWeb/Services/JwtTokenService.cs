@@ -47,5 +47,19 @@ namespace DemoWeb.Services
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             return new SymmetricSecurityKey(secretBytes);
         }
+
+        public static TokenValidationParameters GetValidationParameters(IConfiguration configuration)
+        {
+            return new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = GetSecurityKey(configuration),
+
+                // Simplify testing
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+            };
+        }
     }
 }

@@ -2,6 +2,7 @@ using DemoWeb.Data;
 using DemoWeb.Models.Identity;
 using DemoWeb.Services;
 using DemoWeb.Services.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -68,6 +69,20 @@ namespace DemoWeb
             services.AddTransient<IUserService, IdentityUserService>();
             services.AddTransient<JwtTokenService>();
 
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
+                });
+
+            services.AddAuthorization();
+
             services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
             services.AddTransient<ITranscriptRepository, DatabaseTranscriptRepository>();
@@ -92,6 +107,9 @@ namespace DemoWeb
 
             app.UseRouting();
 
+            // Read who the user is (i.e. set our Controller.User)
+            app.UseAuthentication();
+            // Check [Authorize] attributes
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
