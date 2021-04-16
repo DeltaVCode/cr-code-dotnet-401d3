@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using DemoWeb.Data;
 using DemoWeb.Models;
 using DemoWeb.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DemoWeb.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase
@@ -54,6 +56,7 @@ namespace DemoWeb.Controllers
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator,Manager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
@@ -85,6 +88,7 @@ namespace DemoWeb.Controllers
 
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator,Manager")]
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
@@ -95,6 +99,7 @@ namespace DemoWeb.Controllers
         }
 
         // DELETE: api/Courses/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -118,6 +123,7 @@ namespace DemoWeb.Controllers
 
         // Student Enrollment Actions:
 
+        [Authorize(Roles = "Administrator,Manager")]
         [HttpPost("{courseId}/Students/{studentId}")]
         public async Task<IActionResult> EnrollStudent(int courseId, int studentId)
         {
@@ -129,6 +135,7 @@ namespace DemoWeb.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Administrator,Manager")]
         [HttpDelete("{courseId}/Students/{studentId}")]
         public async Task<IActionResult> UnenrollStudent(int courseId, int studentId)
         {

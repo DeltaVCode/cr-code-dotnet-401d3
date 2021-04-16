@@ -16,6 +16,9 @@ namespace DemoWeb.Models.Api
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
+        // Allow specifying roles when registering
+        public List<string> Roles { get; set; }
+
         // TODO: what else? grad date?
     }
 }

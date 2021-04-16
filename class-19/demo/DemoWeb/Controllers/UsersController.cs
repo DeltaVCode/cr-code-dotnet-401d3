@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DemoWeb.Models.Api;
 using DemoWeb.Models.Identity;
 using DemoWeb.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace DemoWeb.Controllers
             this.userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<ActionResult<UserDto>> Register(RegisterData data)
         {
@@ -34,6 +36,7 @@ namespace DemoWeb.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginData data)
         {
@@ -44,6 +47,13 @@ namespace DemoWeb.Controllers
             }
 
             return user;
+        }
+
+        [Authorize]
+        [HttpGet("Self")]
+        public async Task<UserDto> Self()
+        {
+            return await userService.GetUser(this.User);
         }
     }
 }

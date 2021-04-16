@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DemoWeb.Models
 {
+    /// <summary>
+    /// Represents the database model for a Course at DeltaV.
+    /// </summary>
     public class Course
     {
         public int Id { get; set; }

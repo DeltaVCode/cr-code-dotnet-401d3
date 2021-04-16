@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using DemoWeb.Models.Api;
 using DemoWeb.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -9,10 +12,12 @@ namespace DemoWeb.Services
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly JwtTokenService tokenService;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, JwtTokenService tokenService)
         {
             this.userManager = userManager;
+            this.tokenService = tokenService;
         }
 
         public async Task<UserDto> Authenticate(string username, string password)
@@ -21,17 +26,19 @@ namespace DemoWeb.Services
 
             if (await userManager.CheckPasswordAsync(user, password))
             {
-                return new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.UserName,
-                };
+                return await GetUserDtoAsync(user);
             }
 
             if (user != null)
                 await userManager.AccessFailedAsync(user);
 
             return null;
+        }
+
+        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+        {
+            var user = await userManager.GetUserAsync(principal);
+            return await GetUserDtoAsync(user);
         }
 
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
@@ -48,11 +55,16 @@ namespace DemoWeb.Services
 
             if (result.Succeeded)
             {
-                return new UserDto
+                if (data.Roles?.Any() == true)
                 {
-                    Id = user.Id,
-                    Username = user.UserName,
-                };
+                    await userManager.AddToRolesAsync(user, data.Roles);
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, "student");
+                }
+
+                return await GetUserDtoAsync(user);
             }
 
             foreach (var error in result.Errors)
@@ -66,6 +78,17 @@ namespace DemoWeb.Services
             }
 
             return null;
+        }
+
+        private async Task<UserDto> GetUserDtoAsync(ApplicationUser user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Token = await tokenService.GetToken(user, TimeSpan.FromMinutes(5)),
+                Roles = await userManager.GetRolesAsync(user),
+            };
         }
     }
 }

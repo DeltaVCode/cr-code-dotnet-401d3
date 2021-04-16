@@ -2,15 +2,19 @@ using DemoWeb.Data;
 using DemoWeb.Models.Identity;
 using DemoWeb.Services;
 using DemoWeb.Services.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +38,11 @@ namespace DemoWeb
         public void ConfigureServices(IServiceCollection services)
         {
             // Make sure controllers have what they need
-            services.AddControllers()
+            services
+                .AddControllers(options =>
+                {
+                    options.Filters.Add(new AuthorizeFilter());
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -48,9 +56,20 @@ namespace DemoWeb
                     Title = "School Demo",
                     Version = "v1",
                 });
+
+                // Make Auth available in our Swagger definition
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                });
+                options.OperationFilter<AuthenticationRequirementOperationFilter>();
             });
 
-            services.AddDbContext<SchoolDbContext>(options => {
+            services.AddDbContext<SchoolDbContext>(options =>
+            {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 if (connectionString == null)
@@ -66,6 +85,21 @@ namespace DemoWeb
                 .AddEntityFrameworkStores<SchoolDbContext>();
 
             services.AddTransient<IUserService, IdentityUserService>();
+            services.AddTransient<JwtTokenService>();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
+                });
+
+            services.AddAuthorization();
 
             services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
@@ -80,16 +114,23 @@ namespace DemoWeb
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(options => {
+            app.UseSwagger(options =>
+            {
                 options.RouteTemplate = "/api/{documentName}/swagger.json";
             });
 
-            app.UseSwaggerUI(options => {
+            app.UseSwaggerUI(options =>
+            {
                 options.SwaggerEndpoint("/api/v1/swagger.json", "Student Demo");
                 options.RoutePrefix = "docs";
             });
 
             app.UseRouting();
+
+            // Read who the user is (i.e. set our Controller.User)
+            app.UseAuthentication();
+            // Check [Authorize] attributes
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -102,6 +143,31 @@ namespace DemoWeb
                     // await context.Response.WriteAsync($"Hello World from path {context.Request.Path}!");
                 });
             });
+        }
+
+        private class AuthenticationRequirementOperationFilter : IOperationFilter
+        {
+            public void Apply(OpenApiOperation operation, OperationFilterContext context)
+            {
+                var hasAnonymous = context.ApiDescription.CustomAttributes().OfType<AllowAnonymousAttribute>().Any();
+                if (hasAnonymous)
+                    return;
+
+                operation.Security ??= new List<OpenApiSecurityRequirement>();
+
+                var scheme = new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme,
+                    },
+                };
+                operation.Security.Add(new OpenApiSecurityRequirement
+                {
+                    [scheme] = new List<string>()
+                });
+            }
         }
     }
 }

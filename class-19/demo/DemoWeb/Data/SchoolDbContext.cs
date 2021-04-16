@@ -1,5 +1,6 @@
 ﻿using DemoWeb.Models;
 using DemoWeb.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +21,10 @@ namespace DemoWeb.Data
         {
             // We now have to have this because IdentityDbContext does stuff
             base.OnModelCreating(modelBuilder);
+
+            SeedRole(modelBuilder, "Administrator");
+            SeedRole(modelBuilder, "Manager");
+            SeedRole(modelBuilder, "Student");
 
             modelBuilder.Entity<Enrollment>()
                 .HasKey(enrollment => new // anonymous type, similar to JS {}
@@ -60,6 +65,18 @@ namespace DemoWeb.Data
                 .HasData(
                     new Enrollment { CourseId = 1001, StudentId = 42 }
                 );
+        }
+
+        private void SeedRole(ModelBuilder modelBuilder, string roleName)
+        {
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(new IdentityRole
+                {
+                    Id = roleName.ToLower(),
+                    Name = roleName,
+                    NormalizedName = roleName.ToUpper(),
+                    ConcurrencyStamp = Guid.Empty.ToString(),
+                });
         }
 
         // Name of this property = name of the table
