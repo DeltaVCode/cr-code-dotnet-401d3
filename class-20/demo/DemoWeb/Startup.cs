@@ -101,10 +101,22 @@ namespace DemoWeb
 
             services.AddAuthorization();
 
-            services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
-            services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
-            services.AddTransient<ITranscriptRepository, DatabaseTranscriptRepository>();
+            // AddSingleton - Make one and reuse it forever
+            // AddScoped - Make one per scope (i.e. per request)
+            // AddTransient - Make me a new one every time
+
+            // Use Scoped because these only depend on DbContext, which is also Scoped
+            services.AddScoped<ICourseRepository, DatabaseCourseRepository>();
+            services.AddScoped<IStudentRepository, DatabaseStudentRepository>();
+            services.AddScoped<ITranscriptRepository, DatabaseTranscriptRepository>();
+
+            // Circular dependency!
+            // services.AddSingleton<Service1>();
+            // services.AddSingleton<Service2>();
         }
+
+        class Service1 { public Service1(Service2 service2) { } }
+        class Service2 { public Service2(Service1 service2) { } }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
