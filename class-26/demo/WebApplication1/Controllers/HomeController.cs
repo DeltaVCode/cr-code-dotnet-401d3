@@ -9,6 +9,8 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    // [Route("Homey/{action=Index}")] // This is dumb
+    // [Route("{action=Index}")] // This is not actually dumb
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,6 +29,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        [HttpGet("Privacy")]
         public IActionResult Privacy()
         {
             return View();

@@ -1,8 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    var name = "Keith";
+    var now = DateTime.Now;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2>My name is @name</h2>
+    <p>1 + 1 is @(1 + 1)</p>
+
+    @if (now.Second % 2 == 0)
+    {
+        <h3>Even Time!</h3>
+    }
+
+    <ul>
+        @foreach (var c in name)
+        {
+            <li>Give me a @c!</li>
+        }
+    </ul>
 </div>
