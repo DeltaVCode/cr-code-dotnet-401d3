@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Data;
+using WebApplication1.Services.Identity;
 
 namespace WebApplication1
 {
@@ -32,6 +33,8 @@ namespace WebApplication1
 
                 options.UseSqlServer(cs);
             });
+
+            services.AddScoped<IUserService, IdentityUserService>();
 
             services.AddControllersWithViews();
         }
