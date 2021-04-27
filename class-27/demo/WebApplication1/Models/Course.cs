@@ -11,9 +11,12 @@ namespace WebApplication1.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Course Code")]
+        [Required, StringLength(50)]
         public string CourseCode { get; set; }
 
         [Column(TypeName = "money")]
+        [Display(Name ="Course Price")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal Price { get; set; }
     }
