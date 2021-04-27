@@ -30,7 +30,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li>
-                                <span>Welcome back!</span>
+                                <a class="nav-link" asp-controller="Account" asp-action="Index">Account</a>
                             </li>
                         }
                         else
