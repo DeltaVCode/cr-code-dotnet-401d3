@@ -15,6 +15,20 @@ namespace WebApplication1.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<WebApplication1.Models.Student> Student { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            // Keep this so Identity still works!
+            base.OnModelCreating(builder);
+
+            builder.Entity<Course>()
+                .HasData(
+                new Course { Id = 42, CourseCode = "Life", Price = 123.45m }
+                );
+        }
+
+        public DbSet<Student> Students { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
     }
 }
