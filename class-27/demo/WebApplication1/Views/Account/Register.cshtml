@@ -1,13 +1,18 @@
-﻿<h1>Register</h1>
+﻿@model WebApplication1.Models.Identity.RegisterData
+<h1>Register</h1>
 
 <form method="post" asp-action="Register">
-    <label>
-        Username:
-        <input name="username" />
-    </label>
-    <label>
-        Password:
-        <input name="password" type="password" />
-    </label>
-    <button type="submit">Register</button>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
 </form>

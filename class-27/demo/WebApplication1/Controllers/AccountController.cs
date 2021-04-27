@@ -25,6 +25,12 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAsync(RegisterData data)
         {
+            // Check for simple errors, e.g. [Required]
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
             await userService.Register(data, ModelState);
             return RedirectToAction(nameof(Welcome));
         }
