@@ -27,16 +27,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
                                 <span>Welcome back!</span>
-                            }
-                            else
-                            {
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
                                 <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-                            }
-                        </li>
+                            </li>
+                            <li>
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Log In</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
