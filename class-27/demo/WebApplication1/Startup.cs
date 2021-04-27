@@ -5,9 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApplication1.Data;
+using WebApplication1.Models.Identity;
+using WebApplication1.Services.Identity;
 
 namespace WebApplication1
 {
@@ -23,6 +28,20 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                var cs = Configuration.GetConnectionString("DefaultConnection");
+                if (cs == null) throw new InvalidOperationException("DefaultConnection is missing!");
+
+                options.UseSqlServer(cs);
+            });
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders(); // so we can make cookies, yum
+
+            services.AddScoped<IUserService, IdentityUserService>();
+
             services.AddControllersWithViews();
         }
 
@@ -44,6 +63,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
