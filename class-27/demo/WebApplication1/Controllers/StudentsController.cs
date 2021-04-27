@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
                 },
                 new Student
                 {
-                    Id = 1,
+                    Id = 2,
                     FirstName = "Stacey",
                     LastName = "Teltser",
                 },
@@ -33,7 +33,13 @@ namespace WebApplication1.Controllers
         // GET: StudentsController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var student = new Student
+            {
+                FirstName = "Bob",
+                LastName = "Barker",
+                Id = id,
+            };
+            return base.View(student);
         }
 
         // GET: StudentsController/Create
@@ -60,13 +66,19 @@ namespace WebApplication1.Controllers
         // GET: StudentsController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var student = new Student
+            {
+                FirstName = "Edit",
+                LastName = "Me",
+                Id = id,
+            };
+            return View(student);
         }
 
         // POST: StudentsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Student student)
         {
             try
             {
@@ -81,6 +93,13 @@ namespace WebApplication1.Controllers
         // GET: StudentsController/Delete/5
         public ActionResult Delete(int id)
         {
+            // TODO: Go to database (via repo) instead
+            var student = new Student
+            {
+                FirstName = "Delete",
+                LastName = "Me",
+                Id = id,
+            };
             return View();
         }
 
