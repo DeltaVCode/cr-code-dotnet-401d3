@@ -32,6 +32,13 @@ namespace WebApplication1.Controllers
             }
 
             await userService.Register(data, ModelState);
+
+            // Now check for errors from Register()
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
             return RedirectToAction(nameof(Welcome));
         }
 

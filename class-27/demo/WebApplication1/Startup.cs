@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Data;
+using WebApplication1.Models.Identity;
 using WebApplication1.Services.Identity;
 
 namespace WebApplication1
@@ -33,6 +35,10 @@ namespace WebApplication1
 
                 options.UseSqlServer(cs);
             });
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders(); // so we can make cookies, yum
 
             services.AddScoped<IUserService, IdentityUserService>();
 
