@@ -10,11 +10,13 @@ namespace WebApplication1.Services.Identity
 {
     public class IdentityUserService : IUserService
     {
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         public async Task<ApplicationUser> Register(RegisterData data, ModelStateDictionary modelState)
@@ -44,6 +46,13 @@ namespace WebApplication1.Services.Identity
             }
 
             return null;
+        }
+
+        public async Task<bool> SignIn(LoginData data)
+        {
+            var result = await signInManager.PasswordSignInAsync(data.Email, data.Password, false, false);
+
+            return result.Succeeded;
         }
     }
 }
