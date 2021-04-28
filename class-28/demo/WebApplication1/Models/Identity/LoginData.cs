@@ -10,5 +10,7 @@ namespace WebApplication1.Models.Identity
 
         [Required]
         public string Password { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

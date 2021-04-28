@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models.Identity;
+using WebApplication1.Models.ViewModels;
 using WebApplication1.Services.Identity;
 
 namespace WebApplication1.Controllers
@@ -49,9 +51,13 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            var model = new LoginData
+            {
+                ReturnUrl = returnUrl,
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -69,12 +75,26 @@ namespace WebApplication1.Controllers
                 return View(data);
             }
 
+            if (Url.IsLocalUrl(data.ReturnUrl))
+            {
+                return LocalRedirect(data.ReturnUrl);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await userService.GetCurrentUser();
+
+            var model = new AccountIndexViewModel
+            {
+                User = user,
+                Profiles = new List<object> { null },
+            };
+
+            return View(model);
         }
     }
 }
