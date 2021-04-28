@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -17,6 +18,11 @@ namespace WebApplication1.Services.Identity
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+        }
+
+        public async Task<ApplicationUser> GetUser(ClaimsPrincipal principal)
+        {
+            return await userManager.GetUserAsync(principal);
         }
 
         public async Task<ApplicationUser> Register(RegisterData data, ModelStateDictionary modelState)

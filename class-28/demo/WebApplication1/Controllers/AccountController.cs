@@ -83,9 +83,13 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var principal = this.User;
+
+            var user = await userService.GetUser(principal);
+
+            return View(user);
         }
     }
 }

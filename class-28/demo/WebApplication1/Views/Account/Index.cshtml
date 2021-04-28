@@ -1,3 +1,10 @@
 ﻿@model WebApplication1.Models.Identity.ApplicationUser
 <h1>Your Account!</h1>
 
+<ul>
+    <li>Username: @User.Identity.Name</li>
+    <li>User ID: @Model.Id</li>
+    <li>Two Factor Enabled? @(Model.TwoFactorEnabled ? "Yes" : "No")</li>
+    <li>Phone: @(Model.PhoneNumber ?? "N/A")</li>
+</ul>
+
