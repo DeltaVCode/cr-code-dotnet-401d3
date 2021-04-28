@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models.Identity;
 using WebApplication1.Services.Identity;
@@ -49,9 +50,13 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            var model = new LoginData
+            {
+                ReturnUrl = returnUrl,
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -69,9 +74,15 @@ namespace WebApplication1.Controllers
                 return View(data);
             }
 
+            if (!string.IsNullOrEmpty(data.ReturnUrl))
+            {
+                return Redirect(data.ReturnUrl);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
