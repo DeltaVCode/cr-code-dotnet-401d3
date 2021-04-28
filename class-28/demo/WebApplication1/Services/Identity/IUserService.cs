@@ -12,6 +12,7 @@ namespace WebApplication1.Services.Identity
 
         Task<bool> SignIn(LoginData data);
 
+        Task<ApplicationUser> GetCurrentUser();
         Task<ApplicationUser> GetUser(ClaimsPrincipal principal);
     }
 }
