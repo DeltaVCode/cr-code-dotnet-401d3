@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models.Identity;
+using WebApplication1.Models.ViewModels;
 using WebApplication1.Services.Identity;
 
 namespace WebApplication1.Controllers
@@ -87,7 +88,13 @@ namespace WebApplication1.Controllers
         {
             var user = await userService.GetCurrentUser();
 
-            return View(user);
+            var model = new AccountIndexViewModel
+            {
+                User = user,
+                Profiles = new List<object> { null },
+            };
+
+            return View(model);
         }
     }
 }
