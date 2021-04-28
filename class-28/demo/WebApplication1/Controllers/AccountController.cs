@@ -74,9 +74,9 @@ namespace WebApplication1.Controllers
                 return View(data);
             }
 
-            if (!string.IsNullOrEmpty(data.ReturnUrl))
+            if (Url.IsLocalUrl(data.ReturnUrl))
             {
-                return Redirect(data.ReturnUrl);
+                return LocalRedirect(data.ReturnUrl);
             }
 
             return RedirectToAction(nameof(Index));
