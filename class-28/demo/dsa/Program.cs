@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 public class Program
 {
@@ -11,17 +13,27 @@ public class Program
 
         string[] n = new[] { "Stacey", "Craig", "Keith", "car", "zeus", "Zoo" };
         Console.WriteLine(string.Join(",", n));
-        MergeSort(n);
+
+        MergeSort(n, StringComparer.OrdinalIgnoreCase);
         Console.WriteLine(string.Join(",", n));
+        MergeSort(n, StringComparer.Ordinal); // literally ascii order
+        Console.WriteLine(string.Join(",", n));
+
+        MergeSort(n, StringComparer.CurrentCulture);
+        Console.WriteLine(string.Join(",", n));
+        MergeSort(n, StringComparer.CurrentCultureIgnoreCase);
+        Console.WriteLine(string.Join(",", n));
+
+        Console.WriteLine(CultureInfo.CurrentCulture.Name);
     }
 
-    public static void MergeSort<T>(T[] arr)
+    public static void MergeSort<T>(T[] arr, IComparer<T> comparer = null)
         where T : IComparable<T> // generic constraint
     {
-        MergeSort(arr, 0, arr.Length);
+        MergeSort(arr, 0, arr.Length, comparer ?? Comparer<T>.Default);
     }
 
-    private static void MergeSort<T>(T[] arr, int start, int end)
+    private static void MergeSort<T>(T[] arr, int start, int end, IComparer<T> comparer)
         where T : IComparable<T> // generic constraint
     {
         Console.WriteLine(new { start, end });
@@ -30,14 +42,14 @@ public class Program
 
         var mid = start + (end - start) / 2;
 
-        MergeSort(arr, start, mid);
-        MergeSort(arr, mid, end);
+        MergeSort(arr, start, mid, comparer);
+        MergeSort(arr, mid, end, comparer);
 
-        Merge(arr, start, mid, end);
+        Merge(arr, start, mid, end, comparer);
     }
 
     // [left......right-1][right.....end-1]
-    private static void Merge<T>(T[] arr, int left, int right, int end)
+    private static void Merge<T>(T[] arr, int left, int right, int end, IComparer<T> comparer)
         where T : IComparable<T> // generic constraint
     {
         T[] sorted = new T[end - left];
@@ -47,7 +59,7 @@ public class Program
 
         while (il < right && ir < end)
         {
-            if (arr[il].CompareTo(arr[ir]) < 0)
+            if (comparer.Compare(arr[il], arr[ir]) < 0)
                 sorted[s] = arr[il++];
             else
                 sorted[s] = arr[ir++];
