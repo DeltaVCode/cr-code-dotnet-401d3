@@ -43,7 +43,14 @@ namespace WebApplication1
 
             services.AddScoped<IUserService, IdentityUserService>();
 
-            services.AddSingleton<IFileService, KeithFileService>();
+            if (Configuration[AzureFileService.AccountName_Key] != null)
+            {
+                services.AddSingleton<IFileService, AzureFileService>();
+            }
+            else
+            {
+                services.AddSingleton<IFileService, KeithFileService>();
+            }
 
             services.AddControllersWithViews();
         }
