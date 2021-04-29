@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models.Identity;
 using WebApplication1.Models.ViewModels;
@@ -95,6 +96,12 @@ namespace WebApplication1.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfile(IFormFile profileImage)
+        {
+            return RedirectToAction(nameof(Index));
         }
     }
 }

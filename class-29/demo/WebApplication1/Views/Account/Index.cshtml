@@ -15,6 +15,12 @@
         {
             <img src="@Model.User.ProfileImageUrl" class="profile-image" />
         }
+        <form asp-action="UploadProfile" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="profileImage" />
+                <button>Upload</button>
+            </div>
+        </form>
     </div>
 </div>
 
