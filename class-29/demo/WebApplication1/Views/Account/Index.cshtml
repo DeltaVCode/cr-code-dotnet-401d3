@@ -1,12 +1,28 @@
 ﻿@model AccountIndexViewModel
 <h1>Your Account!</h1>
 
-<ul>
-    <li>Username: @User.Identity.Name</li>
-    <li>User ID: @Model.User.Id</li>
-    <li>Two Factor Enabled? @(Model.User.TwoFactorEnabled ? "Yes" : "No")</li>
-    <li>Phone: @(Model.User.PhoneNumber ?? "N/A")</li>
-</ul>
+<div class="row">
+    <div class="col-lg-10 col-md-9 col-sm-8">
+        <ul>
+            <li>Username: @User.Identity.Name</li>
+            <li>User ID: @Model.User.Id</li>
+            <li>Two Factor Enabled? @(Model.User.TwoFactorEnabled ? "Yes" : "No")</li>
+            <li>Phone: @(Model.User.PhoneNumber ?? "N/A")</li>
+        </ul>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-4">
+        @if (Model.User.ProfileImageUrl != null)
+        {
+            <img src="@Model.User.ProfileImageUrl" class="profile-image" />
+        }
+        <form asp-action="UploadProfile" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="profileImage" />
+                <button>Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <h2>Profiles</h2>
 

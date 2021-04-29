@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models.Identity;
 using WebApplication1.Models.ViewModels;
+using WebApplication1.Services;
 using WebApplication1.Services.Identity;
 
 namespace WebApplication1.Controllers
@@ -13,10 +15,12 @@ namespace WebApplication1.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService userService;
+        private readonly IFileService fileService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IFileService fileService)
         {
             this.userService = userService;
+            this.fileService = fileService;
         }
 
         public IActionResult Register()
@@ -95,6 +99,16 @@ namespace WebApplication1.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfile(IFormFile profileImage)
+        {
+            string url = await fileService.Upload(profileImage);
+
+            await userService.SetCurrentProfileImageUrl(url);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

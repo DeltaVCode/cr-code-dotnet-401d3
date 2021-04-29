@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Data;
 using WebApplication1.Models.Identity;
+using WebApplication1.Services;
 using WebApplication1.Services.Identity;
 
 namespace WebApplication1
@@ -41,6 +42,15 @@ namespace WebApplication1
                 .AddDefaultTokenProviders(); // so we can make cookies, yum
 
             services.AddScoped<IUserService, IdentityUserService>();
+
+            if (Configuration[AzureFileService.AccountName_Key] != null)
+            {
+                services.AddSingleton<IFileService, AzureFileService>();
+            }
+            else
+            {
+                services.AddSingleton<IFileService, KeithFileService>();
+            }
 
             services.AddControllersWithViews();
         }
