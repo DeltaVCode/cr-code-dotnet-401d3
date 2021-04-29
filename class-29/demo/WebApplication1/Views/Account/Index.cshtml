@@ -1,0 +1,23 @@
+﻿@model AccountIndexViewModel
+<h1>Your Account!</h1>
+
+<ul>
+    <li>Username: @User.Identity.Name</li>
+    <li>User ID: @Model.User.Id</li>
+    <li>Two Factor Enabled? @(Model.User.TwoFactorEnabled ? "Yes" : "No")</li>
+    <li>Phone: @(Model.User.PhoneNumber ?? "N/A")</li>
+</ul>
+
+<h2>Profiles</h2>
+
+@if (Model.Profiles.Count == 0)
+{
+    <p>You have no profiles</p>
+}
+else
+{
+    foreach (var profile in Model.Profiles)
+    {
+        <p>TODO</p>
+    }
+}
