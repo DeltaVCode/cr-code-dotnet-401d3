@@ -2,7 +2,7 @@
 <h1>Your Account!</h1>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-lg-10 col-md-9 col-sm-8">
         <ul>
             <li>Username: @User.Identity.Name</li>
             <li>User ID: @Model.User.Id</li>
@@ -10,7 +10,7 @@
             <li>Phone: @(Model.User.PhoneNumber ?? "N/A")</li>
         </ul>
     </div>
-    <div class="col-md-6">
+    <div class="col-lg-2 col-md-3 col-sm-4">
         @if (Model.User.ProfileImageUrl != null)
         {
             <img src="@Model.User.ProfileImageUrl" class="profile-image" />
