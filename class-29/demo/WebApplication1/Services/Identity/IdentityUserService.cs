@@ -63,6 +63,18 @@ namespace WebApplication1.Services.Identity
             return null;
         }
 
+        public async Task SetCurrentProfileImageUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("Url is missing");
+
+            var user = await GetCurrentUser();
+            if (user == null) throw new InvalidOperationException("No current user!");
+
+            user.ProfileImageUrl = url;
+            await userManager.UpdateAsync(user);
+        }
+
         public async Task<bool> SignIn(LoginData data)
         {
             var result = await signInManager.PasswordSignInAsync(data.Email, data.Password, false, false);
