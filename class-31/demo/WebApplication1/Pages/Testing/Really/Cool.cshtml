@@ -1,0 +1,15 @@
+﻿@page
+@model WebApplication1.Pages.Testing.Really.CoolModel
+@{
+}
+
+<h1>Razor Page Routing is Cool!</h1>
+
+<p>Name = @Model.Name</p>
+
+<p>Request.Path = @Model.Request.Path</p>
+
+@foreach (var kvp in Model.Request.Query)
+{
+    <li>@kvp.Key = @kvp.Value</li>
+}
