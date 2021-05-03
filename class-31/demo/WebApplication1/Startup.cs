@@ -52,7 +52,11 @@ namespace WebApplication1
                 services.AddSingleton<IFileService, KeithFileService>();
             }
 
+
+            // services.AddMvc(); // equivalent to:
+
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +82,8 @@ namespace WebApplication1
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
