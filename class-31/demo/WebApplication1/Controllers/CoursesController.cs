@@ -22,9 +22,9 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> AdminList()
         {
-            return View(await _context.Courses.ToListAsync());
+            return View("Index", await _context.Courses.ToListAsync());
         }
 
         // GET: Courses/Details/5
