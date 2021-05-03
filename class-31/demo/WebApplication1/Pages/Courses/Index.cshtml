@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                <a asp-page="./Details" asp-route-id="@item.Id" asp-route-courseCode="@item.CourseCode">See More</a>
             </td>
         </tr>
 }
