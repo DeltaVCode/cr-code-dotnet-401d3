@@ -25,6 +25,23 @@ namespace WebApplication1.Data
                 .HasData(
                 new Course { Id = 42, CourseCode = "Life", Price = 123.45m, Rating = 4.5 }
                 );
+
+            builder.Entity<ApplicationRole>()
+                .HasData(
+                    BuildRole(1, "Administrator"),
+                    BuildRole(2, "Customer")
+                );
+        }
+
+        private static ApplicationRole BuildRole(int id, string roleName)
+        {
+            return new ApplicationRole
+            {
+                Id = id,
+                Name = roleName,
+                NormalizedName = roleName.ToUpper(),
+                ConcurrencyStamp = Guid.Empty.ToString(),
+            };
         }
 
         public DbSet<Student> Students { get; set; }
