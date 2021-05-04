@@ -1,0 +1,16 @@
+﻿@model Models.Todo
+
+@if (Model == null)
+{
+    <text>(null)</text>
+}
+else
+{
+    var completedClass = Model.Completed ? "todo-complete" : "todo-incomplete";
+
+    <span class="todo @completedClass">
+        <span class="todo-title">@Model.Title</span>
+        <span class="todo-difficulty">@Model.Difficulty</span>
+        <span class="todo-assigned">@Model.AssignedTo</span>
+    </span>
+}

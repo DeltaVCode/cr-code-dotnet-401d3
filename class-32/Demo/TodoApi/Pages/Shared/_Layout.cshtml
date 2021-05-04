@@ -4,9 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <style>
+        .todo-complete .todo-title {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
     <header>
+        <h1>Todo List!</h1>
+        <vc:username />
         @await Component.InvokeAsync("TodoCount", new { incompleteMessage = "Hurry up!" })
         <vc:todo-count incomplete-message="Stop slacking" />
     </header>

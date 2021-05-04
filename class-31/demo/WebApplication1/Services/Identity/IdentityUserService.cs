@@ -34,7 +34,7 @@ namespace WebApplication1.Services.Identity
             return await userManager.GetUserAsync(principal);
         }
 
-        public async Task<ApplicationUser> Register(RegisterData data, ModelStateDictionary modelState)
+        public async Task<ApplicationUser> Register(RegisterData data, string role, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
@@ -47,6 +47,21 @@ namespace WebApplication1.Services.Identity
 
             if (result.Succeeded)
             {
+                if (role == ApplicationRole.Administrator)
+                {
+                    var admins = await userManager.GetUsersInRoleAsync(ApplicationRole.Administrator);
+                    // Only allow register Admin if this is the first
+                    if (admins.Count == 0)
+                    {
+                        await userManager.AddToRoleAsync(user, role);
+                    }
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, role);
+                }
+
+                await signInManager.SignInAsync(user, false);
                 return user;
             }
 
@@ -80,6 +95,11 @@ namespace WebApplication1.Services.Identity
             var result = await signInManager.PasswordSignInAsync(data.Email, data.Password, false, false);
 
             return result.Succeeded;
+        }
+
+        public async Task SignOut()
+        {
+            await signInManager.SignOutAsync();
         }
     }
 }

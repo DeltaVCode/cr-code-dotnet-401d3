@@ -9,10 +9,9 @@
 @foreach (var todo in Model.Todos)
 {
     <li>
-        @todo.Title
-        @if (todo.Completed)
-        {
-            <text>(Completed)</text>
-        }
+        @*@await Html.PartialAsync("_DisplayTodo", todo)*@
+        <partial name="_DisplayTodo" model="todo" />
     </li>
 }
+
+@await Component.InvokeAsync("Username") 
