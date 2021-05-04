@@ -19,5 +19,8 @@ namespace WebApplication1.Models
         [Display(Name ="Course Price")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal Price { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N1}")]
+        public double? Rating { get; set; }
     }
 }

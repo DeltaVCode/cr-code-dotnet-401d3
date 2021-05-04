@@ -23,7 +23,7 @@ namespace WebApplication1.Data
 
             builder.Entity<Course>()
                 .HasData(
-                new Course { Id = 42, CourseCode = "Life", Price = 123.45m }
+                new Course { Id = 42, CourseCode = "Life", Price = 123.45m, Rating = 4.5 }
                 );
         }
 
