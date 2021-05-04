@@ -32,7 +32,7 @@ namespace WebApplication1.Pages.Customer
                 return Page(); // similar to return View() in Controller
             }
 
-            await userService.Register(Input, ModelState);
+            await userService.Register(Input, ApplicationRole.Customer, ModelState);
 
             // Might have duplicate email, invalid password, etc
             if (!ModelState.IsValid)
