@@ -60,6 +60,8 @@ namespace WebApplication1.Services.Identity
                 {
                     await userManager.AddToRoleAsync(user, role);
                 }
+
+                await signInManager.SignInAsync(user, false);
                 return user;
             }
 
