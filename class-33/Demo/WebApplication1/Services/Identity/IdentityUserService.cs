@@ -15,12 +15,14 @@ namespace WebApplication1.Services.Identity
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IEmailService emailService;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.httpContextAccessor = httpContextAccessor;
+            this.emailService = emailService;
         }
 
         public async Task<ApplicationUser> GetCurrentUser()
@@ -62,6 +64,12 @@ namespace WebApplication1.Services.Identity
                 }
 
                 await signInManager.SignInAsync(user, false);
+
+                await emailService.SendEmail(
+                    user.Email,
+                    "Thanks for Registering!",
+                    "You have registred. Yay.");
+
                 return user;
             }
 
