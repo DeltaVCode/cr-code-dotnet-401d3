@@ -52,6 +52,8 @@ namespace WebApplication1
                 services.AddSingleton<IFileService, KeithFileService>();
             }
 
+            services.AddSingleton<IEmailService, LoggerEmailService>();
+
 
             // services.AddMvc(); // equivalent to:
 
