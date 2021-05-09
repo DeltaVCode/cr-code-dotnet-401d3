@@ -81,16 +81,11 @@ The application will be created with the following overall architecture and meth
 ├── src
 │   ├── index.js
 │   ├── app.js
-│   ├── context
-│   │   ├── auth
-│   │   │   └── context.js
-│   │   │   └── auth.js
-│   │   │   └── login.js
-│   │   ├── settings
-│   │   │   └── context.js
+│   ├── auth
+│   │   └── context.js
+│   │   └── auth.js
+│   │   └── login.js
 │   ├── components
-│   │   ├── if
-│   │   │   └── if.js
 │   │   ├── todo
 │   │   │   └── form.js
 │   │   │   └── list.js
@@ -105,14 +100,13 @@ The application will be created with the following overall architecture and meth
 
 > At every stage of development, the application should be publicly deployed
 
-1. **Phase 1: Application Setup**
-   - Basic To Do List Management, using Hooks
-1. **Phase 2: Persistence**
-   - Implement a custom Form Hook
-   - Implement a custom Ajax Hook
-   - Connect to a live API for storing To Do Items
-1. **Phase 3: Settings and Global Context**
-   - Implement user settings for displaying items
-1. **Phase 4: Authorization**
+1. **Phase 1: Routing & Components**
+   - Set up Router
+   - Render To Do List and Form
+1. **Phase 2: Forms & State**
+   - Basic Todo Management with `useState`
+1. **Phase 3: Context & Auth**
    - Require a login to access the list
    - Restrict access to adding, editing, deleting to certain user types
+1. **Phase 4: Persistence**
+   - Connect to a live API for storing To Do Items
