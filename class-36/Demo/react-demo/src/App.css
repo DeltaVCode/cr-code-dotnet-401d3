@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+
+nav li {
+  display: inline-block;
+}
+
+nav li a {
+  text-decoration: none;
+  padding: 10px;
+  font-weight: bolder;
+}
+
+nav li a.active {
+  color: orange;
+}

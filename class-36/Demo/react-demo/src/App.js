@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <nav>
         <ul>
-          <li><NavLink to="/">Home</NavLink></li>
+          <li><NavLink to="/" exact>Home</NavLink></li>
           <li><NavLink to="/bootstrap">Bootstrap</NavLink></li>
         </ul>
       </nav>
