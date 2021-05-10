@@ -30,10 +30,23 @@ function PeopleList(props) {
     return (
         <ul>
             {people.map(person => (
-                <li className={personClassName(person)}>{person.name}</li>
+                <PersonItem person={person} />
             ))}
         </ul>
     )
+}
+
+function PersonItem(props)
+{
+    const { person } = props;
+
+    const liClassName = personClassName(person);
+
+    return (
+        <li className={liClassName}>
+            {person.name}
+        </li>
+    );
 }
 
 function personClassName(person)
