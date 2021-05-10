@@ -1,7 +1,6 @@
 import { Switch, Route, NavLink } from 'react-router-dom';
-import Home from './Home';
-import BootstrapDemo from './BootstrapDemo';
-import logo from './logo.svg';
+import Home from './components/Home';
+import BootstrapDemo from './components/BootstrapDemo';
 import './App.css';
 
 function App() {
