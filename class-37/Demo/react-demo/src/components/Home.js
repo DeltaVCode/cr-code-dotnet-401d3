@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './Home.css';
 
 const deltav = [
@@ -9,11 +10,61 @@ const deltav = [
 ];
 
 export default function Home(){
+    const [peeps, setPeeps] = useState(deltav);
+
+    const handleSave = (peep) => {
+        // DO NOT USE peeps.push(peep);
+
+        // setPeeps(peeps.concat(peep));
+
+        setPeeps([peep, ...peeps]);
+    }
+
     return (
         <div>
             <h1>Welcome Home!</h1>
-            <PeopleList people={deltav} color='blue' fun />
+            <PeopleForm peeps={peeps} onSave={handleSave} />
+            <PeopleList people={peeps} color='blue' fun />
         </div>
+    )
+}
+
+function PeopleForm(props){
+    const [name, setName] = useState('');
+    const [danger, setDanger] = useState(true);
+
+    console.log({ name, danger })
+
+    const { peeps, onSave } = props;
+    console.log('peeps', peeps);
+
+    const handleNameChange = e => setName(e.target.value);
+    const handleDangerChange = e => setDanger(e.target.checked);
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        
+        console.log('submit', { name, danger})
+
+        const newPeep = { name, danger, saved: true };
+        onSave(newPeep); // function from props
+
+        // Doesn't work!
+        // peeps.push({ name, danger });
+        // console.log(peeps);
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input name="name" placeholder="Name"
+                value={name} onChange={handleNameChange} />
+            <label>
+                Dangerous? 
+                <input type="checkbox" name="dangerous" value="yes"
+                    checked={danger} onChange={handleDangerChange} />
+            </label>
+            <button>Add Peep</button>
+        </form>
     )
 }
 
