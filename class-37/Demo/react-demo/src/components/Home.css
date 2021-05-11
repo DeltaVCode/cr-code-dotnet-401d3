@@ -1,0 +1,9 @@
+.danger{
+    background-color: red;
+    color: white;
+}
+
+.benign {
+    background-color: blue;
+    color:gray;
+}
