@@ -3,15 +3,18 @@ import { useState } from "react";
 export default function FormDemo(){
     return (
         <>
-            <Counter />
+            <Counter initialValue={3.14159} />
+            <Counter title="Counter, Too" />
             <FormUncontrolledDemo />
         </>
     )
 }
 
-function Counter()
+function Counter(props)
 {
-    let [num, setNum] = useState(8);
+    const { initialValue, title } = props;
+
+    let [num, setNum] = useState(initialValue || 0);
     console.log('calling Counter', num);
 
     const increment = (event) => {
@@ -29,7 +32,7 @@ function Counter()
 
     return (
         <form>
-            <h3>Counter Value: {num}</h3>
+            <h3>{title || 'Counter Value'}: {num}</h3>
             <input type="text" value={num}
                 onChange={handleChange} />
             <button type='button' onClick={increment}>+1</button>
@@ -51,6 +54,7 @@ function FormUncontrolledDemo(){
         <form onSubmit={handleSubmit}>
             <h3>Uncontrolled!</h3>
             <input type="text" name="word" />
+            <Counter title="inside form!" />
         </form>
     )
 }
