@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 export default function FormDemo(){
     return (
@@ -10,16 +11,27 @@ export default function FormDemo(){
 
 function Counter()
 {
-    let num = 5;
+    let [num, setNum] = useState(8);
+    console.log('calling Counter', num);
+
     const increment = (event) => {
-        num++;
+        // num++;
+        // console.log(num);
+        setNum(num + 1);
+
+        num = 7;
         console.log(num);
+    }
+
+    const handleChange = event => {
+        setNum(parseInt(event.target.value));
     }
 
     return (
         <form>
             <h3>Counter Value: {num}</h3>
-            <input type="text" value={num} />
+            <input type="text" value={num}
+                onChange={handleChange} />
             <button type='button' onClick={increment}>+1</button>
         </form>
     )
