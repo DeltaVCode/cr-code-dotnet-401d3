@@ -80,8 +80,8 @@ function PeopleList(props) {
 
     return (
         <ul>
-            {people.map(person => (
-                <PersonItem person={person} />
+            {people.map((person, i) => (
+                <PersonItem person={person} key={i} />
             ))}
         </ul>
     )
