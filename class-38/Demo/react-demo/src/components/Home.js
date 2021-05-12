@@ -27,7 +27,11 @@ export default function Home(){
             <Auth>
                 You are authorized!
             </Auth>
-            <PeopleForm peeps={peeps} onSave={handleSave} />
+
+            <Auth permission='create'>
+                <PeopleForm peeps={peeps} onSave={handleSave} />
+            </Auth>
+
             <PeopleList people={peeps} color='blue' fun />
         </div>
     )
