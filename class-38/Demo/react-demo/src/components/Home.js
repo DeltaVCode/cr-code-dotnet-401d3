@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Auth from './auth'; // works because index.js
 import './Home.css';
 
 const deltav = [
@@ -23,7 +24,14 @@ export default function Home(){
     return (
         <div>
             <h1>Welcome Home!</h1>
-            <PeopleForm peeps={peeps} onSave={handleSave} />
+            <Auth>
+                You are authorized!
+            </Auth>
+
+            <Auth permission='create'>
+                <PeopleForm peeps={peeps} onSave={handleSave} />
+            </Auth>
+
             <PeopleList people={peeps} color='blue' fun />
         </div>
     )
@@ -80,8 +88,8 @@ function PeopleList(props) {
 
     return (
         <ul>
-            {people.map(person => (
-                <PersonItem person={person} />
+            {people.map((person, i) => (
+                <PersonItem person={person} key={i} />
             ))}
         </ul>
     )
