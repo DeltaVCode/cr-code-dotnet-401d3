@@ -10,8 +10,23 @@ export function useAuth() {
 
 export function AuthProvider(props) {
     const [state, setState] = useState({
-        user: null
+        user: null,
+
+        login,
     });
+
+    function login(username, password) {
+        console.log({username, password});
+
+        setUser({ name: username });
+    }
+
+    function setUser(user) {
+        setState(prevState => ({
+            ...prevState, // spread operator
+            user,
+        }));
+    }
 
     return (
         <AuthContext.Provider value={state}>
