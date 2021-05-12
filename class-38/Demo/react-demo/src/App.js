@@ -4,6 +4,7 @@ import Home from './components/Home';
 import BootstrapDemo from './components/BootstrapDemo';
 import FormDemo from './components/FormDemo'
 import NavLogin from './components/NavLogin';
+import Login from './components/auth/Login';
 import './App.css';
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/forms">
             <FormDemo />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route>
             <h1>Not Found</h1>

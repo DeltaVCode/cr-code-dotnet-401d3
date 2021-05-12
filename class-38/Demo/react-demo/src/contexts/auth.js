@@ -10,7 +10,7 @@ export function useAuth() {
 
 export function AuthProvider(props) {
     const [state, setState] = useState({
-        user: { name: 'dahlbyk' },
+        user: null
     });
 
     return (
