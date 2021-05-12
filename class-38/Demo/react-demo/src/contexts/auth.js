@@ -1,5 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 
+// Normally get this from our environment
+const usersAPI = 'https://deltav-todo.azurewebsites.net/api/v1/Users';
+
 export const AuthContext = createContext();
 
 export function useAuth() {
@@ -16,14 +19,32 @@ export function AuthProvider(props) {
         logout,
     });
 
-    function login(username, password) {
+    async function login(username, password) {
         console.log({username, password});
 
-        setUser({ name: username });
+        const result = await fetch(`${usersAPI}/Login`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const resultBody = await result.json();
+        console.log({resultBody});
+
+        if (result.ok) {
+            return setUser(resultBody);
+        }
+
+        // TODO: process validation errors
+
+        // Make sure we're not logged in!
+        return logout();
     }
 
     function logout() {
-        setUser(null);
+        return setUser(null);
     }
 
     function setUser(user) {
@@ -31,6 +52,7 @@ export function AuthProvider(props) {
             ...prevState, // spread operator
             user,
         }));
+        return true;
     }
 
     return (

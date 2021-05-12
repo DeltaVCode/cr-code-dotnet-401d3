@@ -9,7 +9,7 @@ export default function NavLogin(props) {
 
     if (user) {
         return (
-            <li>Hi, {user.name}</li>
+            <li>Hi, {user.username}</li>
         );
     }
 

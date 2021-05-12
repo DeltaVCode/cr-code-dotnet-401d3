@@ -11,7 +11,7 @@ export default function BootstrapDemo()
     return (
         <>
             <h1>Bootstrap demo goes here!</h1>
-            <Alert variant="danger">Our first alert, {user.name}!</Alert>
+            <Alert variant="danger">Our first alert, {user.username}!</Alert>
 
             <Button variant="danger">Hi!</Button>
         </>
