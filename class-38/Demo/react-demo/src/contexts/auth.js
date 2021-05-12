@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import jwt from 'jsonwebtoken';
 
 // Normally get this from our environment
 const usersAPI = 'https://deltav-todo.azurewebsites.net/api/v1/Users';
@@ -31,7 +32,6 @@ export function AuthProvider(props) {
         });
 
         const resultBody = await result.json();
-        console.log({resultBody});
 
         if (result.ok) {
             return setUser(resultBody);
@@ -48,6 +48,9 @@ export function AuthProvider(props) {
     }
 
     function setUser(user) {
+        // pull permissions out of token
+        user = processToken(user);
+
         setState(prevState => ({
             ...prevState, // spread operator
             user,
@@ -61,3 +64,23 @@ export function AuthProvider(props) {
         </AuthContext.Provider>
     );
 }
+
+function processToken(user) {
+    if (!user)
+      return null;
+  
+    try {
+      const payload = jwt.decode(user.token);
+      if (payload){
+        console.log('token payload', payload);
+        user.permissions = payload.permissions || [];
+        return user;
+      }
+  
+      return null;
+    }
+    catch (e) {
+      console.warn(e);
+      return null;
+    }
+  }
