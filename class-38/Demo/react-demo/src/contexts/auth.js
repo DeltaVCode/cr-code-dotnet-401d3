@@ -13,12 +13,17 @@ export function AuthProvider(props) {
         user: null,
 
         login,
+        logout,
     });
 
     function login(username, password) {
         console.log({username, password});
 
         setUser({ name: username });
+    }
+
+    function logout() {
+        setUser(null);
     }
 
     function setUser(user) {
