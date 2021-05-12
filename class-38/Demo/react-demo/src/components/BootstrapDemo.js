@@ -1,9 +1,11 @@
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import { useAuth } from '../contexts/auth';
 
-export default function BootstrapDemo(props)
+
+export default function BootstrapDemo()
 {
-    const { user } = props;
+    const { user } = useAuth();
 
     // <> is a React.Fragment
     return (
