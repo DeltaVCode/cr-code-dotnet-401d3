@@ -52,7 +52,7 @@ export function AuthProvider(props) {
             ...prevState, // spread operator
             user,
         }));
-        return true;
+        return user;
     }
 
     return (

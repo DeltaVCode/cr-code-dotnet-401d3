@@ -13,14 +13,19 @@ export default function Login() {
         )
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         const { target } = e;
         const { username, password } = target.elements;
 
 
-        login(username.value, password.value);
+        if (!await login(username.value, password.value)) {
+            // Clear form if invalid
+            target.reset();
+        } else {
+            // TODO: redirect home
+        }
     };
 
     return (
