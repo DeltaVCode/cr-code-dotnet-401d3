@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
+import { useAuth } from '../contexts/auth';
 
 export default function useFetch(url) {
+    const { user } = useAuth();
+
     useEffect(() => {
         console.log('Run always');
         document.title = 'Updated at ' + new Date();
@@ -15,7 +18,13 @@ export default function useFetch(url) {
 
         async function doFetch() {
             console.log('fetching!');
-            let response = await fetch(url);
+            let headers = {};
+
+            if (user){
+                headers['Authorization'] = `Bearer ${user.token}`;
+            }
+
+            let response = await fetch(url, {headers});
             let body = await response.json();
             setData(body);
 
@@ -24,7 +33,7 @@ export default function useFetch(url) {
         setShouldFetch(false);
         doFetch();
 
-    }, [url, shouldFetch]);
+    }, [url, shouldFetch, user]);
 
     useEffect(() => {
         console.log('Run once');
