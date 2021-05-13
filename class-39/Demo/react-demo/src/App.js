@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import Home from './components/Home';
+import Tasks from './components/Tasks'
 import BootstrapDemo from './components/BootstrapDemo';
 import FormDemo from './components/FormDemo'
 import NavLogin from './components/NavLogin';
@@ -14,7 +15,7 @@ function App() {
     <div className="App">
       <nav>
         <ul>
-          <li><NavLink to="/" exact>Home</NavLink></li>
+          <li><NavLink to="/" exact>Tasks</NavLink></li>
           <li><NavLink to="/forms">Form Demo</NavLink></li>
           <li><NavLink to="/bootstrap">Bootstrap</NavLink></li>
           <NavLogin user={user} />
@@ -23,7 +24,7 @@ function App() {
       <main>
         <Switch>
           <Route path="/" exact>
-            <Home />
+            <Tasks />
           </Route>
           <Route path="/bootstrap">
             <BootstrapDemo user={user} />
