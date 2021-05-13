@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 export default function useFetch(url) {
     useEffect(() => {
         console.log('Run always');
+        document.title = 'Updated at ' + new Date();
     });
 
     const [data, setData] = useState(null);
