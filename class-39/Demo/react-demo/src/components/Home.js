@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import Auth from './auth'; // works because index.js
 import './Home.css';
 
@@ -6,7 +7,7 @@ const deltav = [
     { name: 'Keith' },
     { name: 'Stacey' },
     { name: 'Craig' },
-    { name: 'Aaron' },
+    { name: 'Aaron', danger: true },
     { name: 'Andy' }
 ];
 
@@ -21,6 +22,26 @@ export default function Home(){
         setPeeps([peep, ...peeps]);
     }
 
+    function handleToggleDangerous(toggledPerson) {
+        console.log('toggling', toggledPerson.name)
+
+        const newPeeps = peeps
+            .map(p => {
+                if (p === toggledPerson) {
+                    return {
+                        ...toggledPerson,
+                        danger: !toggledPerson.danger,
+                        toggledAt: new Date(),
+                    };
+                }
+
+                return p;
+            });
+            console.log(newPeeps);
+
+        setPeeps(newPeeps);
+    }
+
     return (
         <div>
             <h1>Welcome Home!</h1>
@@ -32,7 +53,8 @@ export default function Home(){
                 <PeopleForm peeps={peeps} onSave={handleSave} />
             </Auth>
 
-            <PeopleList people={peeps} color='blue' fun />
+            <PeopleList people={peeps} color='blue' fun
+                onToggleDangerous={handleToggleDangerous} />
         </div>
     )
 }
@@ -89,7 +111,8 @@ function PeopleList(props) {
     return (
         <ul>
             {people.map((person, i) => (
-                <PersonItem person={person} key={i} />
+                <PersonItem person={person} key={i}
+                    onToggle={props.onToggleDangerous} />
             ))}
         </ul>
     )
@@ -97,20 +120,30 @@ function PeopleList(props) {
 
 function PersonItem(props)
 {
-    const { person } = props;
+    const { person, onToggle } = props;
 
     const liClassName = personClassName(person);
+
+    const buttonText = person.danger ? 'NOT DANGEROUS NOW' : 'DANGER!!!!';
+
+    function toggleDanger(){
+        onToggle(person);
+    }
 
     return (
         <li className={liClassName}>
             {person.name}
+
+            <Button onClick={toggleDanger}>
+                {buttonText}
+            </Button>
         </li>
     );
 }
 
 function personClassName(person)
 {
-    if (person.name.length > 4)
+    if (person.danger)
         return 'danger';
 
     return 'benign';
