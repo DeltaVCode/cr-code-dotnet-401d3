@@ -8,7 +8,7 @@ const api = 'https://deltav-todo.azurewebsites.net/api/v1/Todos';
 export default function Tasks()
 {
     const { user } = useAuth();
-    const { data } = useFetch(api);
+    const { data, reload } = useFetch(api);
 
     if (!data) {
         return (
@@ -21,7 +21,10 @@ export default function Tasks()
     async function toggleCompleted(task)
     {
         // can't toggle if not logged in
-        if (!user) return;
+        if (!user) {
+            console.log('Log in, dummy');
+            return;
+        }
 
         console.log(task);
         let response = await fetch(
@@ -41,7 +44,10 @@ export default function Tasks()
 
         if (!response.ok) {
             console.warn('Oops!');
+        } else {
+            reload(true);
         }
+
     }
 
     return (
