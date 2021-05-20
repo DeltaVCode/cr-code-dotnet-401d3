@@ -45,7 +45,7 @@ namespace DemoWeb.Tests.Controllers
             var controller = new StudentsController(null, studentRepository);
 
             // Act
-            var result = await controller.GetStudent(50);
+            var result = await controller.GetStudent(42);
 
             // Assert
             Assert.Null(result.Result);
