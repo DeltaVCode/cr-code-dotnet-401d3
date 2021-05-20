@@ -44,7 +44,7 @@ namespace DemoWeb.Tests.Data
             // Assert
             Assert.NotEqual(0, saveMe.Id);
 
-            var saved = await studentRepo.GetStudent(saveMe.Id);
+            var saved = await _db.Students.FindAsync(saveMe.Id);
             Assert.NotNull(saved);
             Assert.Equal(saveMe.FirstName, saved.FirstName);
         }
