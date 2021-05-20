@@ -50,7 +50,7 @@ namespace DemoWeb.Controllers
             }
 
             // return new ActionResult<Student>(student);
-            return student; // Implicit conversion to ActionResult<Student>
+            return student; //  student; // Implicit conversion to ActionResult<Student>
         }
 
         // PUT: api/Students/5
