@@ -24,9 +24,7 @@ namespace DemoWeb.Tests.Controllers
             var result = await controller.GetStudents();
 
             // Assert
-            var value = result.ShouldHaveValue();
-
-            Assert.Equal(students, value);
+            result.ShouldHaveValue(students);
         }
     }
 }
